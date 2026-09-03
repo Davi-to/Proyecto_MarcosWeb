@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Korvia</title>
+    <!-- Carga de Bootstrap mediante CDN para cumplir con el avance 1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Carga de Bootstrap Icons para mejorar el aspecto visual con íconos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+
+<body>
+    <!-- Menú de navegación completo-->
+    <!-- sticky-top: Hace que la barra de navegación se quede pegada en la parte superior al hacer scroll -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container-fluid">
+            <!-- navbar-brand: El logotipo o nombre principal -->
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-pc-display me-2"></i>Korvia
+            </a>
+            <!-- Botón hamburguesa para dispositivos móviles -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- ms-auto: Alinea las opciones del menú a la derecha -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="catalogo.html">Catálogo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal"
+                            data-bs-target="#accountModal">Mi cuenta</a></li>
+                    <!-- Enlace temporal a la administración simulada para fácil acceso durante la evaluación -->
+                    <li class="nav-item"><a class="nav-link text-warning" href="admin.html">Admin</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section (Sección de bienvenida destacada) -->
+    <!-- bg-primary text-white: Fondo azul con texto blanco. py-5: Padding vertical (arriba y abajo) de nivel 5 para darle altura -->
+    <!-- text-center: Centra todo el contenido de este bloque -->
+    <header class="bg-primary text-white text-center py-5">
+        <div class="container">
+            <!-- display-4: Hace que el título principal sea gigante y atractivo -->
+            <h1 class="display-4 fw-bold">Potencia tus Proyectos y Análisis</h1>
+            <!-- lead: Aplica un estilo especial a este párrafo para que resalte como un subtítulo -->
+            <p class="lead mb-4"> Tu aliado tecnológico en el centro de Lima. Encuentra computadoras de alto
+                rendimiento, componentes y laptops con la mejor garantía</p>
+            <!-- btn-light btn-lg: Botón blanco y grande (lg = large). Lleva directamente al catálogo -->
+            <a href="catalogo.html" class="btn btn-light btn-lg shadow">
+                <i class="bi bi-shop me-2"></i>Explorar Catálogo
+            </a>
+        </div>
+    </header>
+
+    <!-- Contenedor de Equipos Destacados[cite: 1] -->
+    <!-- py-5: Agrega espacio vertical para que no esté pegado a la sección anterior -->
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h2>Equipos Destacados</h2>
+            <p class="text-muted">La tecnología que necesitas para sacar tu máximo potencial.</p>
+        </div>
+
+        <!-- Fila responsiva con espaciado (gap-4)[cite: 1] -->
+        <div class="row g-4">
+
+            <!-- Columna que ocupa 1/3 en PC y todo el ancho en móviles[cite: 1] -->
+            <div class="col-12 col-md-4">
+                <!-- Tarjeta de producto con efecto de sombra (shadow-sm)[cite: 1] -->
+                <div class="card h-100 shadow-sm border-0">
+                    <img src="assets/img/workstation.webp" class="card-img-top" alt="Laptop Data Analytics">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Workstation Data Analytics</h5>
+                        <p class="card-text text-muted">Optimizado para bases de datos relacionales y grandes volúmenes
+                            de información.</p>
+                        <!-- Botón estilizado[cite: 1] -->
+                        <a href="detalle.html" class="btn btn-outline-primary mt-3">Ver detalles</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <div class="card h-100 shadow-sm border-0">
+                    <img src="assets/img/pc.gamer.webp" class="card-img-top" alt="PC Rendimiento Extremo">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">PC Rendimiento Extremo</h5>
+                        <p class="card-text text-muted">La máxima potencia para compilar código complejo y arquitecturas
+                            robustas.</p>
+                        <a href="detalle.html" class="btn btn-outline-primary mt-3">Ver detalles</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <div class="card h-100 shadow-sm border-0">
+                    <img src="assets/img/laptop.jpg" class="card-img-top" alt="Laptop Ultraligera">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Laptop Ultraligera</h5>
+                        <p class="card-text text-muted">Portabilidad total para llevarlo a todos lados.</p>
+                        <a href="detalle.html" class="btn btn-outline-primary mt-3">Ver detalles</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <!-- Sección de Beneficios / Servicios (Banner Rojo) -->
+    <!-- container-fluid: Obliga al contenedor a estirarse de lado a lado de la pantalla, sin márgenes laterales[cite: 1] -->
+    <!-- bg-danger: Aplica el fondo rojo estándar de Bootstrap. py-5: Aplica padding (espaciado interior) arriba y abajo[cite: 1] -->
+    <div class="container-fluid bg-primary py-5">
+        <!-- container: Centra el contenido interior para que no se pegue a los bordes de la pantalla[cite: 1] -->
+        <div class="container">
+            <!-- row: Fila obligatoria para usar columnas. g-4: Gap 4, separación uniforme entre las cajas[cite: 1] -->
+            <!-- text-white text-center: Pone todo el texto en blanco y lo centra horizontalmente -->
+            <div class="row g-4 text-white text-center">
+
+                <!-- col-6 col-lg-3: En celulares agrupa de a 2 cajas por fila (6/12), en PC las pone las 4 en una fila (3/12)[cite: 1] -->
+                <div class="col-6 col-lg-3">
+                    <!-- p-4: Padding interior de nivel 4. rounded-3: Redondea las esquinas. h-100: Iguala la altura de todas las cajas[cite: 1] -->
+                    <!-- style="background-color: rgba(0,0,0,0.15);": Un pequeño truco CSS en línea para oscurecer ligeramente el rojo base y lograr el efecto de "tarjeta interior" de tu imagen -->
+                    <div class="p-4 rounded-3 h-100" style="background-color: rgba(0,0,0,0.15);">
+                        <!-- fs-1: Aumenta el tamaño del ícono al máximo nativo (Font Size 1). d-block: Fuerza al ícono a estar en su propia línea[cite: 1] -->
+                        <i class="bi bi-truck fs-1 mb-3 d-block"></i>
+                        <!-- fw-bold: Aplica negrita al título para que resalte -->
+                        <h5 class="fw-bold">Envíos todo Lima</h5>
+                        <!-- small: Reduce un poco el tamaño de la letra del subtítulo. mb-0: Quita el margen inferior por defecto del párrafo -->
+                        <p class="small mb-0">Delivery a Lima & envíos a provincia</p>
+                    </div>
+                </div>
+
+                <div class="col-6 col-lg-3">
+                    <div class="p-4 rounded-3 h-100" style="background-color: rgba(0,0,0,0.15);">
+                        <i class="bi bi-life-preserver fs-1 mb-3 d-block"></i>
+                        <h5 class="fw-bold">Soporte Técnico</h5>
+                        <p class="small mb-0">Atención al cliente</p>
+                    </div>
+                </div>
+
+                <div class="col-6 col-lg-3">
+                    <div class="p-4 rounded-3 h-100" style="background-color: rgba(0,0,0,0.15);">
+                        <i class="bi bi-credit-card fs-1 mb-3 d-block"></i>
+                        <h5 class="fw-bold">100% Pago Seguro</h5>
+                        <p class="small mb-0">Aceptamos todas tus tarjetas</p>
+                    </div>
+                </div>
+
+                <div class="col-6 col-lg-3">
+                    <div class="p-4 rounded-3 h-100" style="background-color: rgba(0,0,0,0.15);">
+                        <!-- bi-bag-fill: Ícono de bolsa de compras relleno[cite: 1] -->
+                        <i class="bi bi-bag-fill fs-1 mb-3 d-block"></i>
+                        <h5 class="fw-bold">Retiro en tienda</h5>
+                        <p class="small mb-0">Recogo en tienda Oficial</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Sección de Visita a Tienda (Video Embebido) -->
+    <!-- py-5: Padding vertical (arriba y abajo) de tamaño 5 para darle respiro a la sección[cite: 1] -->
+    <div class="container py-5 shadow-lg  mt-5">
+        <!-- align-items-center: Obliga a que la columna del texto y la del video se alineen exactamente por el medio verticalmente[cite: 1] -->
+        <!-- g-4: Gap 4. Aplica una separación entre la columna izquierda y derecha -->
+        <div class="row align-items-center g-4">
+
+            <!-- Columna Izquierda (Texto y Redes Sociales) -->
+            <!-- col-md-5: En PC ocupará 5 de las 12 columnas. En celular, ocupará el 100% automáticamente[cite: 1] -->
+            <!-- text-center: Centra el texto y los íconos horizontalmente -->
+            <div class="col-md-5 text-center">
+                <!-- display-6 y fw-bold: Crea un título grande y en negrita intensa -->
+                <h2 class="display-6 fw-bold mb-3">¡Las mejores PCs!<br>Visita Korvia</h2>
+
+                <!-- fw-semibold: Letra con un grosor intermedio para que el subtítulo resalte -->
+                <p class="mb-4 fw-semibold">Nos muestran las mejores PCs que peuden encontrar en nuestra tienda</p>
+
+                <!-- d-flex justify-content-center gap-4: Crea una caja flexible que centra los íconos y les da un espaciado (gap) uniforme -->
+                <div class="d-flex justify-content-center gap-4">
+                    <!-- text-danger: Pinta el ícono de Facebook de rojo (como en tu imagen de referencia) -->
+                    <!-- fs-1: Font Size 1. Hace que el ícono de Bootstrap Icons sea extra grande[cite: 1] -->
+                    <a href="#" class="text-primary"><i class="bi bi-facebook fs-1"></i></a>
+                    <!-- text-danger: Pinta el ícono de YouTube de rojo -->
+                    <a href="#" class="text-primary"><i class="bi bi-youtube fs-1"></i></a>
+                </div>
+            </div>
+
+            <!-- Columna Derecha (Video de YouTube Embebido) -->
+            <!-- col-md-7: Le damos 7 columnas al video para que sea el protagonista visual en PC[cite: 1] -->
+            <div class="col-md-7">
+                <!-- shadow-lg: Agrega una sombra grande para darle profundidad al video -->
+                <!-- rounded y overflow-hidden: Redondea las esquinas del contenedor y oculta cualquier borde recto del video que intente sobresalir -->
+                <!-- ratio ratio-16x9: CLAVE AQUÍ. Es la clase de Bootstrap que vuelve al video 100% adaptable a cualquier pantalla móvil sin cortarse[cite: 1] -->
+                <div class="ratio ratio-16x9 shadow-lg rounded overflow-hidden">
+                    <!-- iframe: Etiqueta estándar de HTML para incrustar páginas externas. Solo debes cambiar el enlace 'src' por el de tu propio video -->
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/-xRssMyX3es?si=YoZjcPvfrQtkqpFn"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer (Pie de página básico para cerrar la estructura) -->
+    <!-- bg-dark text-white: Fondo negro y texto blanco. mt-5: Margen superior para separarlo del contenido -->
+    <footer class="bg-dark text-white text-center py-4 mt-5">
+        <div class="container">
+            <p class="mb-0">&copy; 2026 Korvia - Proyecto de Marcos de Desarrollo Web.</p>
+        </div>
+    </footer>
+
+    <!-- Modal Mi cuenta -->
+    <!-- modal: Estructura base de ventana emergente. fade: Agrega animación de desvanecimiento -->
+    <div class="modal fade" id="accountModal" tabindex="-1">
+        <!-- modal-dialog: Contenedor principal. modal-sm: Tamaño pequeño. modal-dialog-centered: Centra verticalmente -->
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <!-- modal-content: Contenedor con estilos de tarjeta para el contenido del modal -->
+            <div class="modal-content">
+                <!-- modal-header: Área superior del modal -->
+                <div class="modal-header">
+                    <!-- modal-title: Estiliza el texto como título -->
+                    <h5 class="modal-title ">Mi cuenta</h5>
+                    <!-- btn-close: Botón con forma de X para cerrar el modal -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <!-- modal-body: Área principal. text-center: Centra el texto -->
+                <div class=" modal-body text-center">
+                    <!-- btn btn-primary: Botón principal azul. w-100: Ocupa todo el ancho. mb-3: Margen inferior -->
+                    <a href="login.html" class="btn btn-primary w-100 mb-3">Iniciar Sesión</a>
+                    <!-- btn btn-outline-secondary: Botón gris con fondo transparente. w-100: Ocupa todo el ancho -->
+                    <a href="registro.html" class="btn btn-outline-secondary w-100">Registrarme</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts de Bootstrap requeridos para el menú móvil[cite: 1] -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

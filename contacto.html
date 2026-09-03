@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - Korvia</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Íconos de Bootstrap[cite: 1] -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+
+<body class="bg-light">
+    <!-- Navegación -->
+    <!-- sticky-top: Hace que la barra de navegación se quede pegada en la parte superior al hacer scroll -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top mb-4">
+        <!-- container-fluid: Ocupa el 100% del ancho de la pantalla -->
+        <div class="container-fluid">
+            <!-- navbar-brand: El logotipo o nombre principal -->
+            <a class="navbar-brand" href="index.html">
+                <!-- bi bi-pc-display: Icono de Bootstrap. me-2: Margin end 2, separa el icono del texto -->
+                <i class="bi bi-pc-display me-2"></i>Korvia
+            </a>
+            <!-- Botón hamburguesa para dispositivos móviles -->
+            <!-- navbar-toggler: Estilo base para el botón. -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <!-- navbar-toggler-icon: El ícono de tres líneas (hamburguesa) -->
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- collapse navbar-collapse: Oculta los enlaces por defecto en móviles -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- ms-auto: Alinea las opciones del menú a la derecha -->
+                <ul class="navbar-nav ms-auto">
+                    <!-- nav-item: Elemento de lista. nav-link: Estiliza el enlace -->
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="catalogo.html">Catálogo</a></li>
+                    <!-- nav-link active: Resalta que esta es la página actual -->
+                    <li class="nav-item"><a class="nav-link active" href="contacto.html">Contacto</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal"
+                            data-bs-target="#accountModal">Mi cuenta</a></li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- container: Contenedor principal centrado con márgenes automáticos -->
+    <div class="container">
+        <!-- text-center: Centra el título y el subtítulo en la pantalla -->
+        <div class="text-center mb-5">
+            <h2>Contáctanos</h2>
+            <p class="lead text-muted">¿Tienes alguna duda sobre nuestros equipos? Escríbenos.</p>
+        </div>
+
+        <!-- Fila principal que divide la pantalla en dos columnas en computadoras[cite: 1] -->
+        <div class="row g-4">
+
+            <!-- Columna izquierda: Formulario de contacto[cite: 1] -->
+            <div class="col-md-7">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <h4 class="mb-4">Envíanos un mensaje</h4>
+                        <!-- Formulario para cumplir con la rúbrica[cite: 1] -->
+                        <form>
+                            <!-- row: Permite dividir campos en la misma línea (Nombre y Apellido)[cite: 1] -->
+                            <div class="row">
+                                <div class="col-sm-6 mb-3">
+                                    <label for="nombreCont" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="nombreCont" placeholder="Ej. Juan"
+                                        required>
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <label for="apellidoCont" class="form-label">Apellido</label>
+                                    <input type="text" class="form-control" id="apellidoCont" placeholder="Ej. Pérez"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="emailCont" class="form-label">Correo Electrónico</label>
+                                <input type="email" class="form-control" id="emailCont"
+                                    placeholder="tucorreo@ejemplo.com" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="mensaje" class="form-label">Mensaje</label>
+                                <!-- textarea: Campo de texto multilínea. rows="4" define su altura inicial -->
+                                <textarea class="form-control" id="mensaje" rows="4"
+                                    placeholder="Escribe tu consulta aquí..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary"><i class="bi bi-send me-2"></i>Enviar
+                                Mensaje</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna derecha: Información de la empresa y contacto directo -->
+            <div class="col-md-5">
+                <!-- text-white y bg-dark: Hace que esta tarjeta tenga fondo oscuro y texto blanco para contrastar -->
+                <div class="card shadow-sm h-100 bg-dark text-white">
+                    <!-- p-4: Padding 4. Aplica un margen interior generoso en todos los lados (arriba, abajo, izquierda, derecha) -->
+                    <div class="card-body p-4">
+                        <h4 class="mb-4">Información de Contacto</h4>
+
+                        <!-- Listas sin viñetas (list-unstyled) para mostrar datos de contacto limpios -->
+                        <ul class="list-unstyled mb-4">
+                            <!-- d-flex align-items-center: Alinea verticalmente el ícono con el texto -->
+                            <!-- fs-5: Font Size 5. Hace el texto un poco más grande -->
+                            <li class="d-flex align-items-center mb-3 fs-5">
+                                <i class="bi bi-geo-alt-fill text-primary me-3 fs-3"></i>
+                                <span>Av. Arequipa 265, Lima</span>
+                            </li>
+                            <li class="d-flex align-items-center mb-3 fs-5">
+                                <i class="bi bi-telephone-fill text-primary me-3 fs-3"></i>
+                                <span>+51 987 654 321</span>
+                            </li>
+                            <li class="d-flex align-items-center mb-3 fs-5">
+                                <i class="bi bi-envelope-fill text-primary me-3 fs-3"></i>
+                                <span>soporte@korvia.pe</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal Mi cuenta -->
+    <!-- Modal Mi cuenta -->
+    <!-- modal: Estructura base de ventana emergente. fade: Agrega animación de desvanecimiento -->
+    <div class="modal fade" id="accountModal" tabindex="-1">
+        <!-- modal-dialog: Contenedor principal. modal-sm: Tamaño pequeño. modal-dialog-centered: Centra verticalmente -->
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <!-- modal-content: Contenedor con estilos de tarjeta para el contenido del modal -->
+            <div class="modal-content">
+                <!-- modal-header: Área superior del modal -->
+                <div class="modal-header">
+                    <!-- modal-title: Estiliza el texto como título -->
+                    <h5 class="modal-title">Mi cuenta</h5>
+                    <!-- btn-close: Botón con forma de X para cerrar el modal -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <!-- modal-body: Área principal. text-center: Centra el texto -->
+                <div class=" modal-body text-center">
+                    <!-- btn btn-primary: Botón principal azul. w-100: Ocupa todo el ancho. mb-3: Margen inferior -->
+                    <a href="login.html" class="btn btn-primary w-100 mb-3">Iniciar Sesión</a>
+                    <!-- btn btn-outline-secondary: Botón gris con fondo transparente. w-100: Ocupa todo el ancho -->
+                    <a href="registro.html" class="btn btn-outline-secondary w-100">Registrarme</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts de Bootstrap[cite: 1] -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

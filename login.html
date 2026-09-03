@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión - Korvia</title>
+    <!-- Importación de Bootstrap mediante CDN[cite: 1] -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Carga de Bootstrap Icons para mejorar el aspecto visual con íconos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<!-- bg-light: Aplica un fondo gris claro a toda la página para que la tarjeta de inicio de sesión (que es blanca) resalte por contraste -->
+
+<body class="bg-light">
+    <!-- Menú de navegación completo-->
+    <!-- sticky-top: Hace que la barra de navegación se quede pegada en la parte superior al hacer scroll -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <!-- container-fluid: Ocupa el 100% del ancho de la pantalla -->
+        <div class="container-fluid">
+            <!-- navbar-brand: El logotipo o nombre principal -->
+            <a class="navbar-brand" href="index.html">
+                <!-- bi bi-pc-display: Icono de Bootstrap. me-2: Margin end 2, separa el icono del texto -->
+                <i class="bi bi-pc-display me-2"></i>Korvia
+            </a>
+            <!-- Botón hamburguesa para dispositivos móviles -->
+            <!-- navbar-toggler: Estilo base para el botón. -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <!-- navbar-toggler-icon: El ícono de tres líneas (hamburguesa) -->
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- collapse navbar-collapse: Agrupa y oculta el menú en pantallas pequeñas -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- ms-auto: Alinea las opciones del menú a la derecha -->
+                <ul class="navbar-nav ms-auto">
+                    <!-- nav-item: Elemento de lista. nav-link: Estiliza el enlace -->
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="catalogo.html">Catálogo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
+                    <!-- nav-link active: Resalta que esta es la página actual -->
+                    <li class="nav-item"><a class="nav-link active" href="#" data-bs-toggle="modal"
+                            data-bs-target="#accountModal">Mi cuenta</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- mt-5: Margin Top 5, empuja todo el bloque de inicio de sesión más abajo en la pantalla -->
+    <div class="container mt-5">
+        <!-- justify-content-center: Centra horizontalmente todo el contenido de esta fila -->
+        <div class="row justify-content-center">
+            <!-- col-md-6 col-lg-4: En tablets (md) ocupa media pantalla (6), en computadoras (lg) ocupa un tercio (4). En móviles ocupa todo (12)[cite: 1] -->
+            <div class="col-md-6 col-lg-4">
+                <!-- shadow: Agrega una sombra sutil alrededor de la tarjeta para darle profundidad y separarla del fondo -->
+                <div class="card shadow">
+                    <div class="card-body">
+                        <!-- text-center: Centra el texto. mb-4: Margin Bottom 4, separa el título del primer campo de texto -->
+                        <h4 class="card-title text-center mb-4">Iniciar Sesión</h4>
+
+                        <form action="admin.html">
+                            <!-- mb-3: Separa cada bloque (label + input) con un margen inferior para que no se vean amontonados -->
+                            <div class="mb-3">
+                                <!-- form-label: Estiliza el texto indicativo del campo, dándole el margen correcto respecto a la caja de texto[cite: 1] -->
+                                <label for="email" class="form-label">Correo Electrónico</label>
+                                <!-- form-control: Obligatorio en formularios Bootstrap. Hace que el input ocupe el 100% del ancho y le da un borde estilizado[cite: 1] -->
+                                <input type="email" class="form-control" id="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Contraseña</label>
+                                <input type="password" class="form-control" id="password" required>
+                            </div>
+                            <!-- w-100: Width 100%. Obliga al botón a estirarse de lado a lado dentro de la tarjeta[cite: 1] -->
+                            <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+                        </form>
+
+                        <!-- mt-3: Margen superior para separarlo del formulario. text-center: Centra el texto del enlace -->
+                        <div class="mt-3 text-center">
+                            <a href="registro.html">¿No tienes cuenta? Regístrate aquí</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Mi cuenta -->
+    <!-- modal: Estructura base de ventana emergente. fade: Agrega animación de desvanecimiento -->
+    <div class="modal fade" id="accountModal" tabindex="-1">
+        <!-- modal-dialog: Contenedor principal. modal-sm: Tamaño pequeño. modal-dialog-centered: Centra verticalmente -->
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <!-- modal-content: Contenedor con estilos de tarjeta para el contenido del modal -->
+            <div class="modal-content">
+                <!-- modal-header: Área superior del modal -->
+                <div class="modal-header">
+                    <!-- modal-title: Estiliza el texto como título -->
+                    <h5 class="modal-title">Mi cuenta</h5>
+                    <!-- btn-close: Botón con forma de X para cerrar el modal -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <!-- modal-body: Área principal. text-center: Centra el texto -->
+                <div class=" modal-body text-center">
+                    <!-- btn btn-primary: Botón principal azul. w-100: Ocupa todo el ancho. mb-3: Margen inferior -->
+                    <a href="login.html" class="btn btn-primary w-100 mb-3">Iniciar Sesión</a>
+                    <!-- btn btn-outline-secondary: Botón gris con fondo transparente. w-100: Ocupa todo el ancho -->
+                    <a href="registro.html" class="btn btn-outline-secondary w-100">Registrarme</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

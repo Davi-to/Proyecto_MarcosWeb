@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo - Korvia</title>
+    <!-- Carga de Bootstrap mediante CDN, obligatorio para la evaluación -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Carga de Bootstrap Icons para mejorar el aspecto visual con íconos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+
+<body class="bg-light">
+    <!-- navbar-expand-lg: Muestra el menú completo en pantallas grandes y lo oculta tras un botón en móviles[cite: 1] -->
+    <!-- mb-4: Margin Bottom 4. Añade un espacio debajo de la barra para separarla del catálogo -->
+    <!-- sticky-top: Hace que la barra de navegación se quede pegada en la parte superior al hacer scroll -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top mb-4">
+        <div class="container-fluid">
+            <!-- navbar-brand: El logotipo o nombre principal -->
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-pc-display me-2"></i>Korvia
+            </a>
+
+            <!-- navbar-toggler: Es el botón "hamburguesa" que aparece solo en celulares para abrir el menú -->
+            <!-- data-bs-toggle y data-bs-target: Atributos de JavaScript de Bootstrap que le dicen al botón qué menú debe desplegar -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- collapse navbar-collapse: Oculta los enlaces por defecto en móviles hasta que se presione el botón superior -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- ms-auto: Margin Start Auto. Empuja todos los enlaces de la lista hacia la derecha de la barra -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <!-- nav-link active: 'nav-link' da el estilo de enlace de menú. 'active' lo ilumina más para indicar en qué página estamos -->
+                    <li class="nav-item"><a class="nav-link active" href="catalogo.html">Catálogo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal"
+                            data-bs-target="#accountModal">Mi cuenta</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- container: Contenedor principal que centra el catálogo y gestiona los márgenes laterales[cite: 1] -->
+    <div class="container">
+        <h2 class="mb-4">Catálogo de Equipos</h2>
+
+        <!-- row: Fila contenedora obligatoria para la grilla[cite: 1]. -->
+        <!-- g-4: Gap 4. Aplica una separación (hueco) uniforme de tamaño 4 entre todas las tarjetas, tanto vertical como horizontalmente -->
+        <div class="row g-4">
+
+            <!-- col-12 col-md-6 col-lg-4: Sistema de columnas. -->
+            <!-- col-12: En móviles, la tarjeta ocupa las 12 columnas (todo el ancho)[cite: 1]. -->
+            <!-- col-md-6: En tablets, ocupa 6 columnas (mitad de pantalla, caben 2 tarjetas por fila)[cite: 1]. -->
+            <!-- col-lg-4: En laptops, ocupa 4 columnas (un tercio de pantalla, caben 3 tarjetas por fila)[cite: 1]. -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <!-- card: Contenedor de la tarjeta[cite: 1]. -->
+                <!-- h-100: Height 100%. Fuerza a que todas las tarjetas de la fila tengan la misma altura, aunque el texto varíe -->
+                <!-- shadow-sm: Shadow Small. Agrega una sombra muy ligera para darle un aspecto moderno -->
+                <div class="card h-100 shadow-sm">
+                    <!-- card-img-top: Ajusta la imagen a la parte superior de la tarjeta[cite: 1] -->
+                    <img src="assets/img/workstation.webp" class="card-img-top" alt="Laptop Data Engineer">
+                    <!-- card-body: Espaciado interno. -->
+                    <!-- d-flex flex-column: Flexbox. Convierte el interior en una columna flexible para poder empujar el botón al fondo -->
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Workstation Data Pro</h5>
+                        <p class="card-text">64GB RAM, 2TB NVMe. Hardware optimizado para cargas masivas, despliegue de
+                            bases de datos relacionales y pipelines de ingeniería de datos.</p>
+                        <!-- text-primary: Pinta el precio del color principal (azul). mb-3: Margen inferior -->
+                        <h6 class="text-primary mb-3">S/ 6,500.00</h6>
+                        <!-- mt-auto: Margin Top Auto. Este truco empuja el botón siempre hacia abajo, alineando todos los botones de las tarjetas sin importar la cantidad de texto[cite: 1] -->
+                        <a href="detalle.html" class="btn btn-primary mt-auto">Ver detalle</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="assets/img/pc.gamer.webp" class="card-img-top" alt="PC Estudiante">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">PC Rendimiento UTP</h5>
+                        <p class="card-text">Procesador i7, 32GB RAM. Ideal para proyectos universitarios, levantamiento
+                            de servidores locales y gestión de entornos de prueba.</p>
+                        <h6 class="text-primary mb-3">S/ 4,200.00</h6>
+                        <a href="detalle.html" class="btn btn-primary mt-auto">Ver detalle</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="assets/img/laptop.jpg" class="card-img-top" alt="Laptop Básica">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Laptop Office Light</h5>
+                        <p class="card-text">8GB RAM, 256GB SSD. Equipo ligero para ofimática básica y navegación
+                            fluida.</p>
+                        <h6 class="text-primary mb-3">S/ 1,800.00</h6>
+                        <a href="detalle.html" class="btn btn-primary mt-auto">Ver detalle</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal Mi cuenta -->
+    <!-- modal: Estructura base de ventana emergente. fade: Agrega animación de desvanecimiento -->
+    <div class="modal fade" id="accountModal" tabindex="-1">
+        <!-- modal-dialog: Contenedor principal. modal-sm: Tamaño pequeño. modal-dialog-centered: Centra verticalmente -->
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <!-- modal-content: Contenedor con estilos de tarjeta para el contenido del modal -->
+            <div class="modal-content">
+                <!-- modal-header: Área superior del modal -->
+                <div class="modal-header">
+                    <!-- modal-title: Estiliza el texto como título -->
+                    <h5 class="modal-title">Mi cuenta</h5>
+                    <!-- btn-close: Botón con forma de X para cerrar el modal -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <!-- modal-body: Área principal. text-center: Centra el texto -->
+                <div class=" modal-body text-center">
+                    <!-- btn btn-primary: Botón principal azul. w-100: Ocupa todo el ancho. mb-3: Margen inferior -->
+                    <a href="login.html" class="btn btn-primary w-100 mb-3">Iniciar Sesión</a>
+                    <!-- btn btn-outline-secondary: Botón gris con fondo transparente. w-100: Ocupa todo el ancho -->
+                    <a href="registro.html" class="btn btn-outline-secondary w-100">Registrarme</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Carga de scripts de Bootstrap al final del body para que la página cargue más rápido. Permite que el menú móvil funcione[cite: 1] -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
