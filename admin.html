@@ -10,26 +10,17 @@
 
 <body>
     <!-- Menú de navegación completo-->
-    <!-- sticky-top: Hace que la barra de navegación se quede pegada en la parte superior al hacer scroll -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-        <!-- container-fluid: Ocupa el 100% del ancho de la pantalla -->
         <div class="container-fluid">
-            <!-- navbar-brand: El logotipo o nombre principal -->
             <a class="navbar-brand" href="index.html">
-                <!-- bi bi-pc-display: Icono de Bootstrap. me-2: Margin end 2, separa el icono del texto -->
                 <i class="bi bi-pc-display me-2"></i>Korvia
             </a>
             <!-- Botón hamburguesa para dispositivos móviles -->
-            <!-- navbar-toggler: Estilo base para el botón. -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <!-- navbar-toggler-icon: El ícono de tres líneas (hamburguesa) -->
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <!-- collapse navbar-collapse: Agrupa y oculta el menú en pantallas pequeñas -->
             <div class="collapse navbar-collapse" id="navbarNav">
-                <!-- ms-auto: Alinea las opciones del menú a la derecha -->
                 <ul class="navbar-nav ms-auto">
-                    <!-- nav-item: Elemento de lista. nav-link: Estiliza el enlace -->
                     <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
                     <li class="nav-item"><a class="nav-link" href="catalogo.html">Catálogo</a></li>
                     <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
@@ -40,13 +31,9 @@
         </div>
     </nav>
 
-    <!-- container mt-5: Contenedor principal con margen superior 5 -->
     <div class="container mt-5">
         <h3>Gestión de Inventario</h3>
-        <!-- Tablas[cite: 1] -->
-        <!-- table table-striped mt-3: Tabla básica con filas alternadas (cebra) y margen superior 3 -->
         <table class="table table-striped mt-3">
-            <!-- table-dark: Encabezado de tabla con fondo oscuro -->
             <thead class="table-dark">
                 <tr>
                     <th>ID</th>
@@ -60,8 +47,6 @@
                     <td>1</td>
                     <td>PC Gamer RTX</td>
                     <td>15</td>
-                    <!-- Botones y disparador de Modal[cite: 1] -->
-                    <!-- btn btn-warning btn-sm: Botón amarillo de advertencia, tamaño pequeño -->
                     <td><button class="btn btn-warning btn-sm" data-bs-toggle="modal"
                             data-bs-target="#editModal">Editar</button></td>
                 </tr>
@@ -69,24 +54,14 @@
         </table>
     </div>
 
-    <!-- Ventana Modal[cite: 1] -->
-    <!-- Ventana Modal[cite: 1] -->
-    <!-- modal fade: Estructura de modal con animación de desvanecimiento -->
     <div class="modal fade" id="editModal" tabindex="-1">
-        <!-- modal-dialog: Contenedor principal del modal -->
         <div class="modal-dialog">
-            <!-- modal-content: Contenedor con estilos de tarjeta -->
             <div class="modal-content">
-                <!-- modal-header: Área superior del modal -->
                 <div class="modal-header">
-                    <!-- modal-title: Estiliza el texto como título del modal -->
                     <h5 class="modal-title">Editar Equipo</h5>
                 </div>
-                <!-- modal-body: Área principal del modal -->
                 <div class="modal-body">
-                    <!-- Formularios[cite: 1] -->
                     <form>
-                        <!-- form-control: Campo de entrada estilizado al 100% del ancho -->
                         <input type="text" class="form-control" value="PC Gamer RTX">
                     </form>
                 </div>
@@ -98,24 +73,15 @@
 
     <!-- Modal Mi cuenta -->
     <!-- Modal Mi cuenta -->
-    <!-- modal: Estructura base de ventana emergente. fade: Agrega animación de desvanecimiento -->
     <div class="modal fade" id="accountModal" tabindex="-1">
-        <!-- modal-dialog: Contenedor principal. modal-sm: Tamaño pequeño. modal-dialog-centered: Centra verticalmente -->
         <div class="modal-dialog modal-sm modal-dialog-centered">
-            <!-- modal-content: Contenedor con estilos de tarjeta para el contenido del modal -->
             <div class="modal-content">
-                <!-- modal-header: Área superior del modal -->
                 <div class="modal-header">
-                    <!-- modal-title: Estiliza el texto como título -->
                     <h5 class="modal-title">Mi cuenta</h5>
-                    <!-- btn-close: Botón con forma de X para cerrar el modal -->
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <!-- modal-body: Área principal. text-center: Centra el texto -->
                 <div class=" modal-body text-center">
-                    <!-- btn btn-primary: Botón principal azul. w-100: Ocupa todo el ancho. mb-3: Margen inferior -->
                     <a href="login.html" class="btn btn-primary w-100 mb-3">Iniciar Sesión</a>
-                    <!-- btn btn-outline-secondary: Botón gris con fondo transparente. w-100: Ocupa todo el ancho -->
                     <a href="registro.html" class="btn btn-outline-secondary w-100">Registrarme</a>
                 </div>
             </div>
