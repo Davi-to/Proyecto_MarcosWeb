@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('Detalle')}"></head>
+
+<body class="bg-light">
+
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <div class="container py-4">
+        <a th:href="@{/catalogo}" class="btn btn-outline-secondary mb-4">
+            <i class="bi bi-arrow-left me-1"></i>Volver al Catálogo
+        </a>
+
+        <div class="card shadow-sm border-0 overflow-hidden" th:if="${producto != null}">
+            <div class="row g-0">
+
+                <!-- Imagen -->
+                <div class="col-md-6">
+                    <img th:src="@{/img/productos/{img}(img=${producto.imagen})}" class="img-fluid w-100 h-100"
+                        style="object-fit: cover; min-height: 400px; max-height: 600px;" th:alt="${producto.nombre}">
+                </div>
+
+                <!-- Info -->
+                <div class="col-md-6 d-flex">
+                    <div class="card-body p-4 d-flex flex-column w-100">
+
+                        <!-- Estado + stock -->
+                        <div class="d-flex align-items-center gap-2 mb-3">
+                            <span class="badge px-3 py-2" th:classappend="${producto.estadoColorClass}"
+                                th:text="${producto.estadoTexto}">Disponible</span>
+                            <small class="text-muted">
+                                Stock: <span th:text="${producto.stock}">0</span> |
+                                Reservado: <span th:text="${producto.reservado}">0</span>
+                            </small>
+                        </div>
+
+                        <!-- Nombre -->
+                        <h2 class="fw-bold mb-3" th:text="${producto.nombre}">Nombre</h2>
+
+                        <!-- Categoría -->
+                        <span class="badge bg-secondary mb-3 align-self-start fs-6"
+                            th:text="${producto.categoria.nombre}">Categoría</span>
+
+                        <!-- Precio -->
+                        <h3 class="text-primary fw-bold mb-4" th:text="'S/ ' + ${producto.precio}">S/ 0.00</h3>
+
+                        <!-- Descripción -->
+                        <div class="producto-descripcion mb-4">
+                            <h6 class="fw-bold mb-2">Descripción</h6>
+                            <p class="text-muted mb-0"
+                                th:utext="${producto.descripcionLarga != null ? producto.descripcionLarga : producto.descripcion}">
+                                Descripción
+                            </p>
+                        </div>
+
+                        <!-- Cantidad + carrito -->
+                        <div class="mt-auto">
+                            <form th:action="@{/carrito/agregar}" method="post" th:if="${producto.disponible}">
+                                <input type="hidden" name="productoId" th:value="${producto.id}">
+
+                                <label class="form-label fw-semibold mb-2">Cantidad</label>
+                                <div class="input-group mb-2" style="max-width: 180px;">
+                                    <button type="button" class="btn btn-outline-secondary"
+                                        onclick="stepQty(-1)">−</button>
+                                    <input type="number" id="cantidad" name="cantidad" class="form-control text-center"
+                                        value="1" min="1" th:max="${producto.stockDisponible}">
+                                    <button type="button" class="btn btn-outline-secondary"
+                                        onclick="stepQty(1)">+</button>
+                                </div>
+                                <small class="text-muted d-block mb-3">
+                                    Máximo <span th:text="${producto.stockDisponible}">0</span> unidades disponibles
+                                </small>
+
+                                <button type="submit" class="btn btn-success btn-lg w-100 mb-2">
+                                    <i class="bi bi-cart-plus me-2"></i>Añadir al Carrito
+                                </button>
+                            </form>
+
+                            <div th:unless="${producto.disponible}" class="alert alert-danger">
+                                <i class="bi bi-exclamation-triangle me-2"></i>Producto agotado
+                            </div>
+
+                            <!-- Botón reservar (solo si stock crítico) -->
+                            <div th:if="${producto.disponible and producto.stockCritico}" class="mb-2">
+                                <button type="button" class="btn btn-outline-warning w-100" data-bs-toggle="modal"
+                                    data-bs-target="#reservaModal">
+                                    <i class="bi bi-clock me-2"></i>Reservar por 24 horas
+                                </button>
+                            </div>
+
+                            <a th:href="@{/catalogo}" class="btn btn-outline-secondary w-100">
+                                Volver al Catálogo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${producto == null}" class="alert alert-danger">
+            Producto no encontrado. <a th:href="@{/catalogo}">Volver al catálogo</a>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/modal-cuenta :: modalCuenta}"></div>
+
+    <!-- Modal Reserva -->
+    <div class="modal fade" id="reservaModal" tabindex="-1" th:if="${producto != null}">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form th:action="@{/reservas/crear}" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="bi bi-clock-history me-2"></i>Reservar por 24 horas
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="productoId" th:value="${producto.id}">
+
+                        <p class="text-muted small">
+                            Reserva este producto y tendrás <strong>24 horas</strong> para concretar la compra.
+                        </p>
+
+                        <div class="mb-3">
+                            <label class="form-label">Tu nombre *</label>
+                            <input type="text" name="nombre" class="form-control" required minlength="2">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tu correo *</label>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Cantidad *</label>
+                            <input type="number" name="cantidad" class="form-control" value="1" min="1"
+                                th:max="${producto.stockDisponible}">
+                            <small class="text-muted">
+                                Máximo <span th:text="${producto.stockDisponible}">0</span> unidades
+                            </small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="bi bi-clock me-1"></i>Confirmar reserva
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function stepQty(delta) {
+            const input = document.getElementById('cantidad');
+            const min = parseInt(input.min) || 1;
+            const max = parseInt(input.max) || 99;
+            let val = parseInt(input.value) || 1;
+            val += delta;
+            if (val < min) val = min;
+            if (val > max) val = max;
+            input.value = val;
+        }
+    </script>
+</body>
+
+</html>

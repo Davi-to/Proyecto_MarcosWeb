@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('Producto Admin')}"></head>
+
+<body class="bg-light">
+
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <div class="container py-4">
+        <a th:href="@{/administracion}" class="btn btn-outline-secondary mb-4">
+            <i class="bi bi-arrow-left me-1"></i>Volver al panel
+        </a>
+
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <h2 class="fw-bold mb-4">
+                    <i class="bi bi-box-seam text-primary me-2"></i>
+                    <span th:text="${modo == 'nuevo' ? 'Nuevo producto' : 'Editar producto'}">Producto</span>
+                </h2>
+
+                <!-- FORM NUEVO -->
+                <form th:if="${modo == 'nuevo'}" th:action="@{/admin/producto/guardar}" method="post">
+
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <label class="form-label">Nombre *</label>
+                            <input type="text" name="nombre" class="form-control" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Categoría *</label>
+                            <select name="categoriaCodigo" class="form-select" required id="categoriaNuevo"
+                                onchange="toggleEspecificaciones('nuevo')">
+                                <option th:each="cat : ${categorias}" th:value="${cat.codigo}" th:text="${cat.nombre}">
+                                    Categoría</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Precio (S/) *</label>
+                            <input type="number" name="precio" step="0.01" min="0" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Stock *</label>
+                            <input type="number" name="stock" min="0" class="form-control" required>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Imagen (nombre de archivo) *</label>
+                            <input type="text" name="imagen" class="form-control" required
+                                placeholder="ej: 1-pc-basico-oficina.jpg">
+                            <small class="text-muted">El archivo debe estar en
+                                <code>static/img/productos/</code></small>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Descripción corta *</label>
+                            <textarea name="descripcion" rows="2" class="form-control" required></textarea>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Descripción larga (acepta HTML: &lt;strong&gt;,
+                                &lt;em&gt;)</label>
+                            <textarea name="descripcionLarga" rows="4" class="form-control"></textarea>
+                        </div>
+
+                        <div class="col-12" id="specsNuevo">
+                            <hr>
+                            <h6 class="fw-bold">Especificaciones técnicas</h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">CPU / Tipo</label>
+                                    <input type="text" name="cpu" class="form-control"
+                                        placeholder="Intel Core i5 12400">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">RAM / Capacidad</label>
+                                    <input type="text" name="ram" class="form-control" placeholder="16GB DDR4">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Almacenamiento / Detalle</label>
+                                    <input type="text" name="almacenamiento" class="form-control"
+                                        placeholder="512GB SSD">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">GPU / Extra</label>
+                                    <input type="text" name="gpu" class="form-control" placeholder="NVIDIA RTX 3060">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <a th:href="@{/administracion}" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save me-1"></i>Guardar
+                        </button>
+                    </div>
+                </form>
+
+                <!-- FORM EDITAR -->
+                <form th:if="${modo == 'editar'}" th:action="@{/admin/producto/actualizar/{id}(id=${producto.id})}"
+                    method="post">
+
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <label class="form-label">Nombre *</label>
+                            <input type="text" name="nombre" class="form-control" required
+                                th:value="${producto.nombre}">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Categoría *</label>
+                            <select name="categoriaCodigo" class="form-select" required id="categoriaEditar"
+                                onchange="toggleEspecificaciones('editar')">
+                                <option th:each="cat : ${categorias}" th:value="${cat.codigo}" th:text="${cat.nombre}"
+                                    th:selected="${producto.categoria != null and producto.categoria.codigo == cat.codigo}">
+                                    Categoría</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Precio (S/) *</label>
+                            <input type="number" name="precio" step="0.01" min="0" class="form-control" required
+                                th:value="${producto.precio}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Stock *</label>
+                            <input type="number" name="stock" min="0" class="form-control" required
+                                th:value="${producto.stock}">
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Imagen (nombre de archivo) *</label>
+                            <input type="text" name="imagen" class="form-control" required
+                                th:value="${producto.imagen}">
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Descripción corta *</label>
+                            <textarea name="descripcion" rows="2" class="form-control" required
+                                th:text="${producto.descripcion}"></textarea>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Descripción larga (acepta HTML: &lt;strong&gt;,
+                                &lt;em&gt;)</label>
+                            <textarea name="descripcionLarga" rows="4" class="form-control"
+                                th:text="${producto.descripcionLarga}"></textarea>
+                        </div>
+
+                        <!-- Bloque PC (oculto si es componente) -->
+                        <div class="col-12" id="specsEditar"
+                            th:classappend="${producto.categoria != null and producto.categoria.codigo == 'component'} ? 'd-none' : ''">
+                            <hr>
+                            <h6 class="fw-bold" id="tituloSpecsEditar">Especificaciones técnicas</h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label" id="labelCpuEditar">CPU</label>
+                                    <input type="text" name="cpu" class="form-control" th:value="${producto.cpu}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" id="labelRamEditar">RAM</label>
+                                    <input type="text" name="ram" class="form-control" th:value="${producto.ram}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" id="labelAlmEditar">Almacenamiento</label>
+                                    <input type="text" name="almacenamiento" class="form-control"
+                                        th:value="${producto.almacenamiento}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" id="labelGpuEditar">GPU</label>
+                                    <input type="text" name="gpu" class="form-control" th:value="${producto.gpu}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <a th:href="@{/administracion}" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save me-1"></i>Guardar cambios
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/modal-cuenta :: modalCuenta}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Cambia dinámicamente las etiquetas según la categoría
+        function toggleEspecificaciones(modo) {
+            const select = document.getElementById('categoria' + (modo === 'nuevo' ? 'Nuevo' : 'Editar'));
+            const codigo = select.value;
+            const esComponente = (codigo === 'component');
+
+            if (modo === 'editar') {
+                const titulo = document.getElementById('tituloSpecsEditar');
+                const labelCpu = document.getElementById('labelCpuEditar');
+                const labelRam = document.getElementById('labelRamEditar');
+                const labelAlm = document.getElementById('labelAlmEditar');
+                const labelGpu = document.getElementById('labelGpuEditar');
+
+                if (esComponente) {
+                    titulo.textContent = 'Especificaciones del componente';
+                    labelCpu.textContent = 'Tipo';
+                    labelRam.textContent = 'Capacidad / Formato';
+                    labelAlm.textContent = 'Velocidad / Detalle';
+                    labelGpu.textContent = 'Extra';
+                } else {
+                    titulo.textContent = 'Especificaciones técnicas';
+                    labelCpu.textContent = 'CPU';
+                    labelRam.textContent = 'RAM';
+                    labelAlm.textContent = 'Almacenamiento';
+                    labelGpu.textContent = 'GPU';
+                }
+            }
+        }
+
+        // Ejecutar al cargar la página para el modo editar
+        document.addEventListener('DOMContentLoaded', function () {
+            const editForm = document.getElementById('categoriaEditar');
+            if (editForm) {
+                toggleEspecificaciones('editar');
+            }
+        });
+    </script>
+</body>
+
+</html>

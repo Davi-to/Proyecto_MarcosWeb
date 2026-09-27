@@ -1,0 +1,682 @@
+/**
+ * Korvia E-commerce - Estilos Personalizados
+ * Minimalista y moderno, complementa Bootstrap 5.3
+ */
+
+/* ========== VARIABLES DE COLOR ========== */
+:root {
+  --korvia-primary: #2563eb;
+  --korvia-primary-dark: #1e40af;
+  --korvia-primary-light: #3b82f6;
+  --korvia-secondary: #64748b;
+  --korvia-accent: #10b981;
+  --korvia-warning: #f59e0b;
+  --korvia-danger: #ef4444;
+  --korvia-light: #f8fafc;
+  --korvia-dark: #0f172a;
+  --korvia-gray: #e2e8f0;
+}
+
+/* ========== SOBREESCRITURA DE BOOTSTRAP ========== */
+
+/* Botones primarios */
+.btn-primary {
+  background-color: var(--korvia-primary);
+  border-color: var(--korvia-primary);
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--korvia-primary-dark);
+  border-color: var(--korvia-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Textos primarios */
+.text-primary {
+  color: var(--korvia-primary) !important;
+}
+
+.bg-primary {
+  background-color: var(--korvia-primary) !important;
+}
+
+/* Enlaces */
+a {
+  color: var(--korvia-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--korvia-primary-dark);
+}
+
+/* ========== GRID DEL CATÁLOGO ========== */
+
+#productGrid {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -12px;
+  margin-right: -12px;
+}
+
+#productGrid>[class*="col-"] {
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-bottom: 24px;
+}
+
+/* Asegurar que las columnas funcionen correctamente */
+.row.g-4 {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -12px;
+  margin-right: -12px;
+}
+
+.row.g-4>[class*="col-"] {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+/* ========== CARDS DE PRODUCTO ========== */
+
+.product-card {
+  transition: all 0.3s ease;
+  border: 1px solid var(--korvia-gray);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-color: var(--korvia-primary-light);
+}
+
+.product-card img {
+  transition: transform 0.3s ease;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.product-card:hover img {
+  transform: scale(1.05);
+}
+
+.product-card .card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.product-card .card-body .mt-auto {
+  margin-top: auto !important;
+}
+
+/* Fix para tarjetas con contenido variable */
+.card.h-100 {
+  height: 100% !important;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ========== BADGES DE STOCK ========== */
+
+.badge-stock {
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+}
+
+.stock-disponible {
+  background-color: var(--korvia-accent);
+  color: white;
+}
+
+.stock-bajo {
+  background-color: var(--korvia-warning);
+  color: var(--korvia-dark);
+}
+
+.stock-critico {
+  background-color: var(--korvia-danger);
+  color: white;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* ========== CARRITO EN NAVBAR ========== */
+
+.cart-icon-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: var(--korvia-danger);
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: bounce-in 0.3s ease;
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ========== COUNTDOWN TIMER ========== */
+
+.countdown-timer {
+  font-family: 'Courier New', monospace;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--korvia-warning);
+  background: var(--korvia-light);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  display: inline-block;
+}
+
+.countdown-timer.critical {
+  color: var(--korvia-danger);
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* ========== CÓDIGOS DE COTIZACIÓN ========== */
+
+.quotation-code {
+  font-family: 'Courier New', monospace;
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: var(--korvia-primary);
+  background: var(--korvia-light);
+  padding: 1rem 2rem;
+  border: 2px dashed var(--korvia-secondary);
+  border-radius: 8px;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.quotation-code small {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--korvia-secondary);
+  font-weight: normal;
+  letter-spacing: normal;
+  margin-top: 0.5rem;
+}
+
+/* ========== NOTIFICACIONES TOAST ========== */
+
+.toast-container {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.toast-custom {
+  min-width: 300px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  pointer-events: all;
+  border-left: 4px solid;
+}
+
+.toast-success {
+  border-left-color: var(--korvia-accent);
+}
+
+.toast-error {
+  border-left-color: var(--korvia-danger);
+}
+
+.toast-warning {
+  border-left-color: var(--korvia-warning);
+}
+
+.toast-info {
+  border-left-color: var(--korvia-primary);
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: var(--korvia-secondary);
+  padding: 0;
+  margin-left: 1rem;
+  transition: color 0.2s;
+}
+
+.toast-close:hover {
+  color: var(--korvia-dark);
+}
+
+.toast-success i {
+  color: var(--korvia-accent);
+}
+
+.toast-error i {
+  color: var(--korvia-danger);
+}
+
+.toast-warning i {
+  color: var(--korvia-warning);
+}
+
+.toast-info i {
+  color: var(--korvia-primary);
+}
+
+/* ========== ANIMACIONES ========== */
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-out {
+  animation: fadeOut 0.3s ease-out forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+}
+
+/* ========== ESTILOS DE VALIDACIÓN ========== */
+
+.form-control.is-valid {
+  border-color: var(--korvia-accent);
+  background-image: none;
+}
+
+.form-control.is-invalid {
+  border-color: var(--korvia-danger);
+  background-image: none;
+}
+
+.invalid-feedback {
+  display: none;
+  color: var(--korvia-danger);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.form-control.is-invalid~.invalid-feedback {
+  display: block;
+}
+
+/* ========== TABLAS ========== */
+
+.table-hover tbody tr:hover {
+  background-color: var(--korvia-light);
+  cursor: pointer;
+}
+
+/* ========== MODALES ========== */
+
+.modal-content {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--korvia-gray);
+  background-color: var(--korvia-light);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+/* ========== DASHBOARD ADMIN ========== */
+
+.dashboard-card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.dashboard-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.dashboard-card h3 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.dashboard-card p {
+  margin: 0;
+  color: var(--korvia-secondary);
+  font-size: 0.875rem;
+}
+
+/* ========== CARRITO DE COMPRAS ========== */
+
+.cart-item {
+  border: 1px solid var(--korvia-gray);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  transition: all 0.2s ease;
+}
+
+.cart-item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.cart-item img {
+  max-width: 100px;
+  border-radius: 8px;
+}
+
+.cart-summary {
+  background: var(--korvia-light);
+  border-radius: 12px;
+  padding: 1.5rem;
+  position: sticky;
+  top: 80px;
+}
+
+/* ========== EMPTY STATE ========== */
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.empty-state i {
+  font-size: 4rem;
+  color: var(--korvia-secondary);
+  margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+  color: var(--korvia-dark);
+  margin-bottom: 1rem;
+}
+
+.empty-state p {
+  color: var(--korvia-secondary);
+  margin-bottom: 2rem;
+}
+
+/* ========== ESTILOS DE IMPRESIÓN ========== */
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .navbar,
+  .footer,
+  .btn,
+  .toast-container {
+    display: none !important;
+  }
+
+  .quotation-print {
+    page-break-inside: avoid;
+  }
+
+  body {
+    background: white;
+  }
+
+  .card {
+    border: 1px solid #000;
+    box-shadow: none;
+  }
+}
+
+/* ========== RESPONSIVE ========== */
+
+@media (max-width: 768px) {
+  .quotation-code {
+    font-size: 1.5rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .toast-container {
+    right: 10px;
+    left: 10px;
+  }
+
+  .toast-custom {
+    min-width: auto;
+  }
+
+  .countdown-timer {
+    font-size: 1rem;
+  }
+
+  .dashboard-card h3 {
+    font-size: 2rem;
+  }
+
+  .cart-summary {
+    position: static;
+    margin-top: 2rem;
+  }
+}
+
+/* ========== LOADING SPINNER ========== */
+
+.spinner-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.spinner-overlay .spinner-border {
+  width: 3rem;
+  height: 3rem;
+  color: white;
+}
+
+/* ========== UTILIDADES ========== */
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.text-muted-light {
+  color: var(--korvia-secondary);
+}
+
+.bg-light-custom {
+  background-color: var(--korvia-light);
+}
+
+.border-custom {
+  border: 1px solid var(--korvia-gray);
+}
+
+.shadow-custom {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+/* ========== SCROLLBAR PERSONALIZADO ========== */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--korvia-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--korvia-secondary);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--korvia-dark);
+}
+
+
+.login-bg {
+  background: linear-gradient(135deg, #0d6efd 0%, #0a4bb3 100%);
+  min-height: 100vh;
+}
+
+.login-bg .card {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.98);
+}
+
+.icon-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+}
+
+.icon-circle i {
+  color: white;
+}
+
+/* Input group bonito */
+.login-bg .input-group-text {
+  border-right: none;
+  color: #6c757d;
+}
+
+.login-bg .form-control {
+  border-left: none;
+}
+
+.login-bg .form-control:focus {
+  box-shadow: none;
+  border-color: #dee2e6;
+}
+
+.login-bg .input-group:focus-within .input-group-text,
+.login-bg .input-group:focus-within .form-control {
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+}
+
+.login-bg .card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-bg .card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Inputs con foco más marcado */
+.login-bg .form-control:focus,
+.login-bg .input-group:focus-within {
+  transform: translateY(-1px);
+  transition: transform 0.15s ease;
+}

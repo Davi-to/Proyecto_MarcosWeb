@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('Inicio')}"></head>
+
+<body>
+
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <!-- Hero Section -->
+    <header class="bg-primary text-white text-center py-5">
+        <div class="container py-3">
+            <span class="badge bg-warning text-dark px-3 py-2 rounded-pill mb-3 fw-semibold">
+                <i class="bi bi-stars me-1"></i> Tecnología de Alto Rendimiento en Perú
+            </span>
+            <h1 class="display-4 fw-bold">Equipos y Soluciones para Cada Necesidad</h1>
+            <p class="lead mb-4 col-lg-8 mx-auto">
+                Especialistas en computadoras de alto rendimiento, workstations de ingeniería, laptops premium y
+                componentes originales con garantía local y soporte técnico certificado.
+            </p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a th:href="@{/contacto}" class="btn btn-light btn-lg shadow-sm fw-semibold">
+                    <i class="bi bi-envelope-fill me-2 text-primary"></i>Contáctanos
+                </a>
+                <a th:href="@{/login}" class="btn btn-outline-light btn-lg fw-semibold">
+                    <i class="bi bi-person-circle me-2"></i>Iniciar Sesión
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- EQUIPOS DESTACADOS -->
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <span class="text-primary fw-bold text-uppercase small tracking-wide">Catálogo Seleccionado</span>
+            <h2 class="fw-bold mt-1">Equipos y Componentes Destacados</h2>
+            <p class="text-muted col-md-6 mx-auto">Encuentra la potencia ideal con componentes de última generación
+                probados y garantizados.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-12 col-md-6 col-lg-4" th:each="producto : ${productos}">
+                <div class="card h-100 featured-card shadow-sm">
+                    <div class="featured-card-img-wrapper">
+                        <span class="badge bg-primary badge-featured"
+                            th:text="${producto.categoria.nombre}">Categoría</span>
+                        <img th:src="@{/img/productos/{img}(img=${producto.imagen})}" th:alt="${producto.nombre}">
+                    </div>
+                    <div class="card-body d-flex flex-column text-center p-4">
+                        <h5 class="card-title fw-bold mb-1" th:text="${producto.nombre}">Nombre</h5>
+                        <p class="text-muted small flex-grow-1" th:text="${producto.descripcion}">Descripción</p>
+                        <div class="mb-3">
+                            <span class="text-primary fw-bold fs-5" th:text="'S/ ' + ${producto.precio}">S/ 0.00</span>
+                        </div>
+                        <a th:href="@{/catalogo/detalle/{id}(id=${producto.id})}"
+                            class="btn btn-outline-primary mt-auto">
+                            <i class="bi bi-eye me-1"></i>Ver detalles
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <a th:href="@{/catalogo}" class="btn btn-primary btn-lg px-4 shadow-sm">
+                <i class="bi bi-grid-fill me-2"></i>Ver todo el Catálogo
+            </a>
+        </div>
+    </div>
+
+    <!-- SOBRE KORVIA -->
+    <div class="bg-white py-5 border-top border-bottom">
+        <div class="container py-3">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <span class="badge bg-light text-primary border border-primary-subtle px-3 py-2 mb-3">
+                        <i class="bi bi-building me-1"></i> Sobre Korvia Tech
+                    </span>
+                    <h2 class="display-6 fw-bold mb-3">Más de 8 años impulsando la tecnología en el Perú</h2>
+                    <p class="text-muted leading-relaxed mb-4">
+                        En <strong>Korvia</strong> somos apasionados por el hardware de calidad. Nacimos con la misión
+                        de brindar asesoramiento técnico honesto, ensamble profesional de computadoras y
+                        comercialización de equipos de cómputo con garantía directa de fábrica.
+                    </p>
+
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <div class="p-3 about-card shadow-sm">
+                                <h6 class="fw-bold mb-1 text-dark"><i class="bi bi-cpu text-primary me-2"></i>Ensamble a
+                                    Medida</h6>
+                                <p class="text-muted small mb-0">Cada PC es testeada bajo estrés térmico por 24 horas
+                                    antes de la entrega.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="p-3 about-card shadow-sm">
+                                <h6 class="fw-bold mb-1 text-dark"><i
+                                        class="bi bi-shield-check text-primary me-2"></i>Garantía Local</h6>
+                                <p class="text-muted small mb-0">12 a 36 meses de cobertura con soporte técnico
+                                    especializado en Lima.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="p-3 about-card shadow-sm">
+                                <h6 class="fw-bold mb-1 text-dark"><i
+                                        class="bi bi-file-earmark-check text-primary me-2"></i>Facturación RUC</h6>
+                                <p class="text-muted small mb-0">Emitimos Boletas y Facturas electrónicas para empresas
+                                    y profesionales.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="p-3 about-card shadow-sm">
+                                <h6 class="fw-bold mb-1 text-dark"><i
+                                        class="bi bi-headset text-primary me-2"></i>Post-Venta Activa</h6>
+                                <p class="text-muted small mb-0">Atención personalizada por WhatsApp y canal telefónico
+                                    directo.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-lg overflow-hidden rounded-4">
+                        <img th:src="@{/img/tienda-local.jpg}" alt="Nuestro Local Korvia Tech"
+                            style="height: 380px; object-fit: cover;">
+                        <div class="card-body p-4 bg-dark text-white">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="fw-bold mb-1">Nuestro Local</h5>
+                                    <p class="text-light small mb-0">Av. Garcilaso de la Vega 1348, Lima Centro</p>
+                                </div>
+                                <a th:href="@{/contacto}" class="btn btn-outline-light btn-sm">
+                                    <i class="bi bi-geo-alt me-1"></i>Cómo llegar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MARCAS -->
+    <div class="container py-5">
+        <div class="text-center mb-4">
+            <h6 class="text-muted text-uppercase fw-bold small">Trabajamos con las mejores marcas del mundo</h6>
+        </div>
+        <div class="row g-3 justify-content-center">
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="brand-item">INTEL</div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="brand-item">AMD RYZEN</div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="brand-item">NVIDIA RTX</div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="brand-item">ASUS ROG</div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="brand-item">CORSAIR</div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="brand-item">KINGSTON</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BENEFICIOS -->
+    <div class="container-fluid bg-primary py-5">
+        <div class="container">
+            <div class="row g-4 text-white text-center">
+                <div class="col-6 col-lg-3">
+                    <div class="p-4 rounded-3 h-100" style="background-color: rgba(0,0,0,0.15);">
+                        <i class="bi bi-truck fs-1 mb-3 d-block"></i>
+                        <h5 class="fw-bold">Envíos a Todo el Perú</h5>
+                        <p class="small mb-0">Delivery en Lima y despachos asegurados a provincia.</p>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="p-4 rounded-3 h-100" style="background-color: rgba(0,0,0,0.15);">
+                        <i class="bi bi-shield-check fs-1 mb-3 d-block"></i>
+                        <h5 class="fw-bold">Garantía Oficial</h5>
+                        <p class="small mb-0">12 a 36 meses de respaldo directo con reposición de componentes.</p>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="p-4 rounded-3 h-100" style="background-color: rgba(0,0,0,0.15);">
+                        <i class="bi bi-credit-card fs-1 mb-3 d-block"></i>
+                        <h5 class="fw-bold">100% Pago Seguro</h5>
+                        <p class="small mb-0">Tarjetas de crédito/débito, transferencias y cotizaciones.</p>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="p-4 rounded-3 h-100" style="background-color: rgba(0,0,0,0.15);">
+                        <i class="bi bi-shop fs-1 mb-3 d-block"></i>
+                        <h5 class="fw-bold">Retiro en Tienda</h5>
+                        <p class="small mb-0">Recojo inmediato y pruebas en nuestra tienda física en Lima.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAPA + UBICACIÓN -->
+    <div class="container py-5 shadow-lg my-5 rounded-4 bg-white">
+        <div class="row align-items-center g-4 p-2">
+            <div class="col-lg-5">
+                <span class="badge bg-primary text-white px-3 py-1 mb-2">Ubicación y Showroom</span>
+                <h2 class="display-6 fw-bold mb-3">Visita Nuestra Tienda en Lima</h2>
+                <p class="text-muted mb-4">
+                    Ven y prueba los equipos en vivo, recibe asesoría técnica personalizada y retira tus compras o
+                    cotizaciones al instante.
+                </p>
+
+                <div class="card bg-light border-0 p-3 mb-4 rounded-3">
+                    <div class="d-flex align-items-start mb-3">
+                        <i class="bi bi-geo-alt-fill text-primary fs-4 me-3 mt-1"></i>
+                        <div>
+                            <strong class="d-block text-dark">Dirección Principal:</strong>
+                            <span class="text-muted small">Av. Garcilaso de la Vega 1348, Centro de Lima (Galería
+                                CyberPlaza / Wilson)</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-start mb-3">
+                        <i class="bi bi-clock-fill text-primary fs-5 me-3 mt-1"></i>
+                        <div>
+                            <strong class="d-block text-dark">Horario de Atención:</strong>
+                            <span class="text-muted small">Lunes a Sábado: 9:30 AM - 8:00 PM</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-start">
+                        <i class="bi bi-telephone-fill text-primary fs-5 me-3 mt-1"></i>
+                        <div>
+                            <strong class="d-block text-dark">Central Telefónica / WhatsApp:</strong>
+                            <span class="text-muted small">+51 987 654 321</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-3">
+                    <a th:href="@{/contacto}" class="btn btn-primary">
+                        <i class="bi bi-envelope me-1"></i>Contactar Asesor
+                    </a>
+                    <a href="https://maps.google.com/?q=Av.+Garcilaso+de+la+Vega+1348,+Lima" target="_blank"
+                        class="btn btn-outline-secondary">
+                        <i class="bi bi-map me-1"></i>Abrir en Google Maps
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="ratio ratio-16x9 shadow rounded-4 overflow-hidden border">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.8847844053247!2d-77.03848142416954!3d-12.051475741984217!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c8c679b0098f%3A0x6b1db9d46fcf822!2sAv.%20Garcilaso%20de%20la%20Vega%201348%2C%20Cercado%20de%20Lima%2015001!5e0!3m2!1ses!2spe!4v1710000000000!5m2!1ses!2spe"
+                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIDEO TOUR -->
+    <div class="container py-5 shadow-lg my-5 rounded-4 bg-white">
+        <div class="row align-items-center g-4 p-2">
+            <div class="col-md-5 text-center">
+                <span class="badge bg-danger text-white px-3 py-1 mb-2">Video Tour</span>
+                <h2 class="display-6 fw-bold mb-3">Conoce Nuestra Tienda y Taller</h2>
+                <p class="mb-4 text-muted">Mira cómo ensamblamos y configuramos los equipos más potentes del mercado en
+                    nuestro showroom.</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a th:href="@{/contacto}" class="btn btn-outline-primary">
+                        <i class="bi bi-geo-alt me-1"></i>Visítanos en Lima
+                    </a>
+                    <a th:href="@{/catalogo}" class="btn btn-primary">
+                        <i class="bi bi-bag-check me-1"></i>Comprar Online
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="ratio ratio-16x9 shadow-lg rounded-3 overflow-hidden">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/-xRssMyX3es?si=YoZjcPvfrQtkqpFn"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/modal-cuenta :: modalCuenta}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

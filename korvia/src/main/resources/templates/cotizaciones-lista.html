@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('Cotizaciones')}"></head>
+
+<body class="bg-light">
+
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <div class="container py-4">
+        <a th:href="@{/administracion}" class="btn btn-outline-secondary mb-4">
+            <i class="bi bi-arrow-left me-1"></i>Volver al panel
+        </a>
+
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+            <div>
+                <p class="text-primary fw-semibold mb-1">ADMINISTRACIÓN</p>
+                <h1 class="h2 mb-0"><i class="bi bi-file-earmark-text me-2"></i>Cotizaciones</h1>
+                <p class="text-muted mb-0 small">
+                    <span th:text="${cotizaciones.size()}">0</span> cotizaciones registradas
+                </p>
+            </div>
+        </div>
+
+        <div th:if="${mensaje}" class="alert alert-success alert-dismissible fade show">
+            <i class="bi bi-check-circle me-2"></i>
+            <span th:text="${mensaje}">Mensaje</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            <span th:text="${error}">Error</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <div th:if="${cotizaciones.isEmpty()}" class="alert alert-info text-center py-5">
+            <i class="bi bi-file-earmark-text fs-1 d-block mb-3"></i>
+            <h5>No hay cotizaciones registradas</h5>
+            <p class="text-muted">Cuando un cliente solicite una cotización, aparecerá aquí.</p>
+        </div>
+
+        <div th:unless="${cotizaciones.isEmpty()}" class="card shadow-sm border-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>N°</th>
+                            <th>Cliente</th>
+                            <th>Email</th>
+                            <th>Fecha</th>
+                            <th>Válida hasta</th>
+                            <th class="text-end">Total</th>
+                            <th class="text-center">Estado</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="c : ${cotizaciones}">
+                            <td>
+                                <strong th:text="${c.numero}">C001-00000001</strong>
+                            </td>
+                            <td th:text="${c.clienteNombre}">Cliente</td>
+                            <td th:text="${c.clienteEmail}">Email</td>
+                            <td th:text="${c.fechaFormateada}">Fecha</td>
+                            <td th:text="${c.fechaVencimientoFormateada}">Fecha</td>
+                            <td class="text-end fw-bold" th:text="'S/ ' + ${c.total}">S/ 0.00</td>
+                            <td class="text-center">
+                                <span th:if="${c.estado == 'PENDIENTE'}" class="badge bg-warning text-dark">
+                                    Pendiente
+                                </span>
+                                <span th:if="${c.estado == 'APROBADA'}" class="badge bg-success">
+                                    Aprobada
+                                </span>
+                                <span th:if="${c.estado == 'RECHAZADA'}" class="badge bg-danger">
+                                    Rechazada
+                                </span>
+                                <span th:if="${c.estado == 'VENCIDA'}" class="badge bg-secondary">
+                                    Vencida
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                <a th:href="@{/cotizacion/{id}(id=${c.id})}" class="btn btn-sm btn-outline-primary"
+                                    title="Ver">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a th:href="@{/cotizacion/{id}/pdf(id=${c.id})}" class="btn btn-sm btn-outline-danger"
+                                    title="PDF" target="_blank">
+                                    <i class="bi bi-file-earmark-pdf"></i>
+                                </a>
+                                <form th:if="${c.estado == 'PENDIENTE'}"
+                                    th:action="@{/cotizacion/aprobar/{id}(id=${c.id})}" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-outline-success" title="Aprobar">
+                                        <i class="bi bi-check-circle"></i>
+                                    </button>
+                                </form>
+                                <form th:if="${c.estado == 'PENDIENTE'}"
+                                    th:action="@{/cotizacion/rechazar/{id}(id=${c.id})}" method="post" class="d-inline"
+                                    onsubmit="return confirm('¿Rechazar esta cotización?');">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Rechazar">
+                                        <i class="bi bi-x-circle"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/modal-cuenta :: modalCuenta}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

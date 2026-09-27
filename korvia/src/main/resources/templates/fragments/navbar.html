@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{/}">
+                <i class="bi bi-pc-display me-2"></i>Korvia
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+
+                    <li class="nav-item"><a class="nav-link" th:href="@{/}">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/catalogo}">Catálogo</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/contacto}">Contacto</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/reservas}">
+                            <i class="bi bi-clock-history me-1"></i>Reservas
+                        </a>
+                    </li>
+
+                    <!-- Carrito -->
+                    <li class="nav-item">
+                        <a class="nav-link position-relative" th:href="@{/carrito}">
+                            <i class="bi bi-cart3 fs-5"></i>
+                            <span th:if="${@carritoService.contarItems() > 0}"
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                th:text="${@carritoService.contarItems()}">0</span>
+                        </a>
+                    </li>
+
+                    <!-- Usuario NO logueado -->
+                    <li class="nav-item" th:if="${usuarioActual == null}">
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#accountModal">
+                            <i class="bi bi-person-circle me-1"></i>Mi cuenta
+                        </a>
+                    </li>
+
+                    <!-- Usuario logueado -->
+                    <li class="nav-item dropdown" th:if="${usuarioActual != null}">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle me-2 fs-5"></i>
+                            <span>
+                                Hola, <strong th:text="${usuarioActual.nombre}">Nombre</strong>
+                                <span class="badge ms-1"
+                                    th:classappend="${usuarioActual.rol.nombre == 'ADMIN'} ? 'bg-warning text-dark' : 'bg-info text-dark'"
+                                    th:text="${usuarioActual.rol.nombre}">ROL</span>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
+                            <li>
+                                <h6 class="dropdown-header">
+                                    <i class="bi bi-person-badge me-1"></i>
+                                    <span th:text="${usuarioActual.nombreCompleto}">Usuario</span>
+                                </h6>
+                            </li>
+                            <li>
+                                <span class="dropdown-item-text small text-muted">
+                                    <i class="bi bi-envelope me-1"></i>
+                                    <span th:text="${usuarioActual.email}">email</span>
+                                </span>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+                            <!-- Solo ADMIN ve esta opción -->
+                            <li th:if="${usuarioActual.rol.nombre == 'ADMIN'}">
+                                <a class="dropdown-item" th:href="@{/administracion}">
+                                    <i class="bi bi-speedometer2 me-1"></i>Panel de administración
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" th:href="@{/reservas}">
+                                    <i class="bi bi-clock-history me-1"></i>Mis reservas
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" th:href="@{/carrito}">
+                                    <i class="bi bi-cart3 me-1"></i>Mi carrito
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item text-danger" th:href="@{/logout}">
+                                    <i class="bi bi-box-arrow-right me-1"></i>Cerrar sesión
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+</body>
+
+</html>

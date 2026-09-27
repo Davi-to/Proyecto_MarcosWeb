@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('Reservas')}"></head>
+
+<body class="bg-light">
+
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <div class="container py-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-2">
+            <div>
+                <p class="text-primary fw-semibold mb-1">RESERVAS</p>
+                <h1 class="h2 mb-0"><i class="bi bi-clock-history me-2"></i>Mis Reservas</h1>
+                <p class="text-muted mb-0 small">Las reservas duran <strong>24 horas</strong>.</p>
+            </div>
+            <a th:href="@{/catalogo}" class="btn btn-primary">
+                <i class="bi bi-plus-lg me-1"></i>Reservar más productos
+            </a>
+        </div>
+
+        <!-- Mensajes -->
+        <div th:if="${mensaje}" class="alert alert-success alert-dismissible fade show">
+            <i class="bi bi-check-circle me-2"></i>
+            <span th:text="${mensaje}">Mensaje</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            <span th:text="${error}">Error</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <!-- Sin reservas -->
+        <div th:if="${reservas.isEmpty()}" class="alert alert-info text-center py-5">
+            <i class="bi bi-clock fs-1 d-block mb-3"></i>
+            <h4>No tienes reservas</h4>
+            <p>Los productos con stock crítico se pueden reservar por 24 horas.</p>
+            <a th:href="@{/catalogo}" class="btn btn-primary mt-3">
+                <i class="bi bi-grid-fill me-2"></i>Ver catálogo
+            </a>
+        </div>
+
+        <!-- Lista de reservas -->
+        <div th:unless="${reservas.isEmpty()}" class="row g-3">
+            <div class="col-12" th:each="r : ${reservas}">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <div class="row align-items-center g-3">
+
+                            <div class="col-md-2 text-center">
+                                <img th:if="${r.producto != null}"
+                                    th:src="@{/img/productos/{img}(img=${r.producto.imagen})}"
+                                    th:alt="${r.producto.nombre}" class="img-fluid rounded"
+                                    style="max-height: 80px; object-fit: cover;">
+                            </div>
+
+                            <div class="col-md-5">
+                                <h5 class="mb-1"
+                                    th:text="${r.producto != null ? r.producto.nombre : 'Producto eliminado'}">
+                                    Producto
+                                </h5>
+                                <p class="text-muted small mb-1">
+                                    Cantidad reservada:
+                                    <strong th:text="${r.cantidad}">0</strong>
+                                </p>
+                                <p class="text-muted small mb-0">
+                                    <i class="bi bi-person me-1"></i>
+                                    <span th:text="${r.clienteNombre}">Cliente</span>
+                                    ·
+                                    <i class="bi bi-envelope me-1"></i>
+                                    <span th:text="${r.clienteEmail}">Email</span>
+                                </p>
+                            </div>
+
+                            <div class="col-md-3">
+                                <p class="small text-muted mb-1">
+                                    <strong>Reservado:</strong>
+                                    <span th:text="${r.fechaReservaFormateada}">Fecha</span>
+                                </p>
+                                <p class="small text-muted mb-0">
+                                    <strong>Expira:</strong>
+                                    <span th:text="${r.fechaExpiracionFormateada}">Fecha</span>
+                                </p>
+                            </div>
+
+                            <div class="col-md-2 text-center">
+                                <span th:if="${r.estado == 'ACTIVA'}" class="badge bg-success mb-2">
+                                    <i class="bi bi-clock me-1"></i>
+                                    <span th:text="${r.horasRestantes}">24</span>h restantes
+                                </span>
+                                <span th:if="${r.estado == 'EXPIRADA'}" class="badge bg-secondary mb-2">
+                                    Expirada
+                                </span>
+                                <span th:if="${r.estado == 'CANCELADA'}" class="badge bg-danger mb-2">
+                                    Cancelada
+                                </span>
+
+                                <form th:if="${r.estado == 'ACTIVA'}" th:action="@{/reservas/cancelar/{id}(id=${r.id})}"
+                                    method="post" onsubmit="return confirm('¿Cancelar esta reserva?');">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger w-100">
+                                        <i class="bi bi-x-circle me-1"></i>Cancelar
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/modal-cuenta :: modalCuenta}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

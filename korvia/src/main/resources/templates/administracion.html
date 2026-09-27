@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('Administración')}"></head>
+
+<body class="bg-light">
+
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <main class="container py-4">
+
+        <!-- Mensajes -->
+        <div th:if="${mensaje}" class="alert alert-success alert-dismissible fade show">
+            <i class="bi bi-check-circle me-2"></i>
+            <span th:text="${mensaje}">Mensaje</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            <span th:text="${error}">Error</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <!-- Header -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+            <div>
+                <p class="text-primary fw-semibold mb-1">ADMINISTRACIÓN</p>
+                <h1 class="h2 mb-0"><i class="bi bi-speedometer2 me-2"></i>Panel de Administración</h1>
+            </div>
+            <a th:href="@{/admin/producto/nuevo}" class="btn btn-primary">
+                <i class="bi bi-plus-lg me-1"></i>Nuevo Producto
+            </a>
+        </div>
+
+        <!-- Tarjetas resumen -->
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-md-4 col-lg">
+                <div class="card h-100 shadow-sm text-center border-0">
+                    <div class="card-body">
+                        <i class="bi bi-box-seam text-primary fs-2"></i>
+                        <h3 class="mt-2 mb-1" th:text="${productos.size()}">0</h3>
+                        <p class="text-muted mb-0 small">Productos</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg">
+                <div class="card h-100 shadow-sm text-center border-0">
+                    <div class="card-body">
+                        <i class="bi bi-exclamation-triangle text-warning fs-2"></i>
+                        <h3 class="mt-2 mb-1" th:text="${#lists.size(productos.?[stockCritico])}">0</h3>
+                        <p class="text-muted mb-0 small">Stock crítico</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg">
+                <div class="card h-100 shadow-sm text-center border-0">
+                    <div class="card-body">
+                        <i class="bi bi-clock-history text-info fs-2"></i>
+                        <h3 class="mt-2 mb-1" th:text="${reservasActivas}">0</h3>
+                        <p class="text-muted mb-0 small">Reservas activas</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg">
+                <div class="card h-100 shadow-sm text-center border-0">
+                    <div class="card-body">
+                        <i class="bi bi-file-earmark-text text-success fs-2"></i>
+                        <h3 class="mt-2 mb-1" th:text="${totalCotizaciones}">0</h3>
+                        <p class="text-muted mb-0 small">Cotizaciones</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg">
+                <div class="card h-100 shadow-sm text-center border-0">
+                    <div class="card-body">
+                        <i class="bi bi-people text-danger fs-2"></i>
+                        <h3 class="mt-2 mb-1" th:text="${totalUsuarios}">0</h3>
+                        <p class="text-muted mb-0 small">Usuarios</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <ul class="nav nav-tabs mb-3" id="adminTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="inventario-tab" data-bs-toggle="tab" data-bs-target="#inventario"
+                    type="button">
+                    <i class="bi bi-box-seam me-1"></i>Inventario
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="reservas-tab" data-bs-toggle="tab" data-bs-target="#reservas-panel"
+                    type="button">
+                    <i class="bi bi-clock-history me-1"></i>Reservas Activas
+                    <span th:if="${reservasActivas > 0}" class="badge bg-danger ms-1"
+                        th:text="${reservasActivas}">0</span>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="cotizaciones-tab" data-bs-toggle="tab" data-bs-target="#cotizaciones"
+                    type="button">
+                    <i class="bi bi-file-earmark-text me-1"></i>Cotizaciones
+                    <span th:if="${totalCotizaciones > 0}" class="badge bg-success ms-1"
+                        th:text="${totalCotizaciones}">0</span>
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+
+            <!-- Tab: INVENTARIO -->
+            <div class="tab-pane fade show active" id="inventario">
+                <div class="card shadow-sm border-0">
+                    <div
+                        class="card-header bg-white d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
+                        <h2 class="h5 mb-0">Gestión de Productos</h2>
+                        <form th:action="@{/administracion}" method="get" class="d-flex" style="max-width: 350px;">
+                            <input type="text" name="buscar" class="form-control me-2" placeholder="Buscar producto..."
+                                th:value="${buscar}">
+                            <button type="submit" class="btn btn-outline-secondary">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Imagen</th>
+                                    <th>Producto</th>
+                                    <th>Categoría</th>
+                                    <th class="text-end">Precio</th>
+                                    <th class="text-center">Stock</th>
+                                    <th class="text-center">Reservado</th>
+                                    <th class="text-center">Disponible</th>
+                                    <th class="text-center">Estado</th>
+                                    <th class="text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="producto : ${productos}">
+                                    <td th:text="${producto.id}">1</td>
+                                    <td>
+                                        <img th:src="@{/img/productos/{img}(img=${producto.imagen})}"
+                                            th:alt="${producto.nombre}"
+                                            style="width: 50px; height: 50px; object-fit: cover;" class="rounded">
+                                    </td>
+                                    <td>
+                                        <strong th:text="${producto.nombre}">Nombre</strong>
+                                    </td>
+                                    <td th:text="${producto.categoria.nombre}">Categoría</td>
+                                    <td class="text-end" th:text="'S/ ' + ${producto.precio}">S/ 0.00</td>
+                                    <td class="text-center">
+                                        <span class="badge bg-secondary" th:text="${producto.stock}">0</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span th:if="${producto.reservado > 0}" class="badge bg-info text-dark"
+                                            th:text="${producto.reservado}">0</span>
+                                        <span th:if="${producto.reservado == 0}" class="text-muted">0</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <strong th:text="${producto.stockDisponible}">0</strong>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge" th:classappend="${producto.estadoColorClass}"
+                                            th:text="${producto.estadoTexto}">Disponible</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <a th:href="@{/admin/producto/editar/{id}(id=${producto.id})}"
+                                            class="btn btn-sm btn-outline-primary" title="Editar">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <form th:action="@{/admin/producto/eliminar/{id}(id=${producto.id})}"
+                                            method="post" class="d-inline"
+                                            onsubmit="return confirm('¿Eliminar este producto?');">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                title="Eliminar">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: RESERVAS ACTIVAS -->
+            <div class="tab-pane fade" id="reservas-panel">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-white">
+                        <h2 class="h5 mb-0">Reservas Activas</h2>
+                    </div>
+
+                    <div th:if="${reservas.isEmpty()}" class="card-body text-center py-5">
+                        <i class="bi bi-clock fs-1 text-muted d-block mb-3"></i>
+                        <p class="text-muted mb-0">No hay reservas registradas.</p>
+                    </div>
+
+                    <div th:unless="${reservas.isEmpty()}" class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Producto</th>
+                                    <th>Cliente</th>
+                                    <th>Email</th>
+                                    <th class="text-center">Cantidad</th>
+                                    <th>Reservado</th>
+                                    <th>Expira</th>
+                                    <th class="text-center">Estado</th>
+                                    <th class="text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="r : ${reservas}">
+                                    <td th:text="${r.id}">1</td>
+                                    <td th:text="${r.producto != null ? r.producto.nombre : 'Producto eliminado'}">
+                                        Producto</td>
+                                    <td th:text="${r.clienteNombre}">Cliente</td>
+                                    <td th:text="${r.clienteEmail}">Email</td>
+                                    <td class="text-center" th:text="${r.cantidad}">1</td>
+                                    <td th:text="${r.fechaReservaFormateada}">Fecha</td>
+                                    <td th:text="${r.fechaExpiracionFormateada}">Fecha</td>
+                                    <td class="text-center">
+                                        <span th:if="${r.estado == 'ACTIVA'}" class="badge bg-success">Activa</span>
+                                        <span th:if="${r.estado == 'EXPIRADA'}"
+                                            class="badge bg-secondary">Expirada</span>
+                                        <span th:if="${r.estado == 'CANCELADA'}"
+                                            class="badge bg-danger">Cancelada</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <form th:if="${r.estado == 'ACTIVA'}"
+                                            th:action="@{/reservas/cancelar/{id}(id=${r.id})}" method="post"
+                                            onsubmit="return confirm('¿Cancelar esta reserva?');">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                <i class="bi bi-x-circle"></i> Cancelar
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: COTIZACIONES -->
+            <div class="tab-pane fade" id="cotizaciones">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                        <h2 class="h5 mb-0">Cotizaciones</h2>
+                        <a th:href="@{/cotizaciones}" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-list-ul me-1"></i>Ver en página completa
+                        </a>
+                    </div>
+
+                    <div th:if="${cotizaciones.isEmpty()}" class="card-body text-center py-5">
+                        <i class="bi bi-file-earmark-text fs-1 text-muted d-block mb-3"></i>
+                        <p class="text-muted mb-0">No hay cotizaciones registradas.</p>
+                    </div>
+
+                    <div th:unless="${cotizaciones.isEmpty()}" class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>N°</th>
+                                    <th>Cliente</th>
+                                    <th>Fecha</th>
+                                    <th>Válida hasta</th>
+                                    <th class="text-end">Total</th>
+                                    <th class="text-center">Estado</th>
+                                    <th class="text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="c : ${cotizaciones}">
+                                    <td><strong th:text="${c.numero}">C001-00000001</strong></td>
+                                    <td>
+                                        <span th:text="${c.clienteNombre}">Cliente</span><br>
+                                        <small class="text-muted" th:text="${c.clienteEmail}">Email</small>
+                                    </td>
+                                    <td th:text="${c.fechaFormateada}">Fecha</td>
+                                    <td th:text="${c.fechaVencimientoFormateada}">Fecha</td>
+                                    <td class="text-end fw-bold" th:text="'S/ ' + ${c.total}">S/ 0.00</td>
+                                    <td class="text-center">
+                                        <span th:if="${c.estado == 'PENDIENTE'}"
+                                            class="badge bg-warning text-dark">Pendiente</span>
+                                        <span th:if="${c.estado == 'APROBADA'}" class="badge bg-success">Aprobada</span>
+                                        <span th:if="${c.estado == 'RECHAZADA'}"
+                                            class="badge bg-danger">Rechazada</span>
+                                        <span th:if="${c.estado == 'VENCIDA'}" class="badge bg-secondary">Vencida</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <a th:href="@{/cotizacion/{id}(id=${c.id})}"
+                                            class="btn btn-sm btn-outline-primary" title="Ver">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a th:href="@{/cotizacion/{id}/pdf(id=${c.id})}"
+                                            class="btn btn-sm btn-outline-danger" title="PDF" target="_blank">
+                                            <i class="bi bi-file-earmark-pdf"></i>
+                                        </a>
+                                        <form th:if="${c.estado == 'PENDIENTE'}"
+                                            th:action="@{/cotizacion/aprobar/{id}(id=${c.id})}" method="post"
+                                            class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-outline-success"
+                                                title="Aprobar">
+                                                <i class="bi bi-check-circle"></i>
+                                            </button>
+                                        </form>
+                                        <form th:if="${c.estado == 'PENDIENTE'}"
+                                            th:action="@{/cotizacion/rechazar/{id}(id=${c.id})}" method="post"
+                                            class="d-inline" onsubmit="return confirm('¿Rechazar esta cotización?');">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                title="Rechazar">
+                                                <i class="bi bi-x-circle"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/modal-cuenta :: modalCuenta}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

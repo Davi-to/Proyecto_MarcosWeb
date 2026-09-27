@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <div th:fragment="modalCuenta" class="modal fade" id="accountModal" tabindex="-1">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Mi cuenta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <a th:href="@{/login}" class="btn btn-primary w-100 mb-3">Iniciar Sesión</a>
+                    <a th:href="@{/registro}" class="btn btn-outline-secondary w-100">Registrarme</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
