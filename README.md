@@ -1,5 +1,5 @@
 Integrantes:
-Liendo Teran, David Josué /n
-Huayta Huiman, Marco Orlando /n
-Vilca Valle, Cristofer Edwar /n
-Duffoó Anamaría, Renzo Paolo /n
+Liendo Teran, David Josué 
+Huayta Huiman, Marco Orlando 
+Vilca Valle, Cristofer Edwar 
+Duffoó Anamaría, Renzo Paolo 
