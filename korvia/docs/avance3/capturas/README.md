@@ -18,7 +18,6 @@ Capturas obtenidas de la aplicación Korvia en `http://localhost:8080` con Chrom
 | `11-reportes-dto.png` | Reporte con consultas multitabla y DTO. |
 | `12-reserva-creada.png` | Reserva creada con vigencia de 24 horas. |
 | `13-stock-reservado.png` | Stock actualizado después de la reserva. |
-| `14-pruebas.png` | Salida de las pruebas automatizadas con Maven y H2. |
 | `15-persistencia-reinicio.png` | Reserva conservada después de reiniciar la aplicación. |
 | `16-home-apf1.png` | Página de inicio de APF1. |
 | `17-catalogo-apf1.png` | Catálogo de productos de APF1. |

@@ -11,7 +11,7 @@ Sistema web de e-commerce de productos tecnológicos para la empresa **Korvia**,
 
 ## Contenido del repositorio
 
-- [`korvia/`](./korvia): código fuente Spring Boot + Thymeleaf, pruebas y documentación del tercer avance.
+- [`korvia/`](./korvia): código fuente Spring Boot + Thymeleaf y documentación del tercer avance.
 - [`korvia/database/korvia.sql`](./korvia/database/korvia.sql): script DDL + datos iniciales para MySQL.
 - [`korvia/docs/avance3/InformeProyectoAPF3_Grupo8_FINAL.docx`](./korvia/docs/avance3/InformeProyectoAPF3_Grupo8_FINAL.docx): informe final del APF3 en Word.
 - [`korvia/docs/avance3/InformeProyectoAPF3_Grupo8_FINAL.pdf`](./korvia/docs/avance3/InformeProyectoAPF3_Grupo8_FINAL.pdf): versión PDF del informe.

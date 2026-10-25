@@ -15,7 +15,7 @@ Esta versión incorpora persistencia real para las tablas `roles`, `usuarios`, `
 
 ## 1. Requisitos
 
-- **JDK 17 o superior.** El proyecto está configurado para Java 21; la compilación y las pruebas también se verificaron con `java.version=17`.
+- **JDK 17 o superior.** El proyecto está configurado para Java 21; la compilación también se verificó con `java.version=17`.
 - **MySQL 8 o superior** en `localhost:3306`.
 - **MySQL Workbench** (recomendado) o el cliente `mysql` en el PATH.
 - No es necesario instalar Maven: el proyecto incluye el Maven Wrapper (`mvnw` / `mvnw.cmd`).
@@ -45,15 +45,15 @@ El proyecto está configurado para Java 21 en `pom.xml`:
 Si tu JDK es 17, cambia el valor a `17`. Si usas otra versión compatible con Spring Boot 4.1.1, coloca esa versión. Después ejecuta:
 
 ```powershell
-.\mvnw.cmd clean test
+.\mvnw.cmd clean package
 ```
 
-Si las pruebas pasan, tu versión de Java es compatible. En un IDE, asegúrate también de seleccionar el mismo JDK para el proyecto.
+Si la compilación termina con `BUILD SUCCESS`, tu versión de Java es compatible. En un IDE, asegúrate también de seleccionar el mismo JDK para el proyecto.
 
 La compilación con Java 17 se verificó con:
 
 ```powershell
-.\mvnw.cmd "-Djava.version=17" clean test
+.\mvnw.cmd "-Djava.version=17" clean package
 ```
 
 ## 3. Crear la base de datos
@@ -117,25 +117,24 @@ spring.datasource.username=tu_usuario
 
 No subas contraseñas ni configuraciones locales al repositorio.
 
-## 5. Ejecutar las pruebas
+## 5. Compilar el proyecto
 
-Las pruebas usan **H2 en memoria**, por lo que no necesitan MySQL:
+Antes de ejecutar la aplicación puedes verificar que compila:
 
 ```powershell
-.\mvnw.cmd clean test
+.\mvnw.cmd clean package
 ```
 
-Resultado esperado:
+El resultado esperado termina con:
 
 ```text
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
 BUILD SUCCESS
 ```
 
 En macOS o Linux:
 
 ```bash
-./mvnw clean test
+./mvnw clean package
 ```
 
 Si aparece un error de permisos en macOS/Linux:
@@ -201,7 +200,6 @@ src/main/resources/
   static/       CSS, JavaScript e imágenes
   application.properties
 
-src/test/       Pruebas con H2
 database/       Script SQL de creación y datos iniciales
 docs/avance3/   Informe final, modelo ER y capturas
 ```
