@@ -27,9 +27,23 @@
                 <p class="text-primary fw-semibold mb-1">ADMINISTRACIÓN</p>
                 <h1 class="h2 mb-0"><i class="bi bi-speedometer2 me-2"></i>Panel de Administración</h1>
             </div>
-            <a th:href="@{/admin/producto/nuevo}" class="btn btn-primary">
-                <i class="bi bi-plus-lg me-1"></i>Nuevo Producto
-            </a>
+            <div class="d-flex flex-wrap gap-2">
+                <a th:href="@{/admin/producto/nuevo}" class="btn btn-primary">
+                    <i class="bi bi-plus-lg me-1"></i>Nuevo Producto
+                </a>
+                <a th:href="@{/admin/categorias}" class="btn btn-outline-primary">
+                    <i class="bi bi-tags me-1"></i>Categorías
+                </a>
+                <a th:href="@{/admin/reportes}" class="btn btn-outline-dark">
+                    <i class="bi bi-bar-chart me-1"></i>Reportes
+                </a>
+                <a th:href="@{/cotizaciones}" class="btn btn-outline-success">
+                    <i class="bi bi-file-earmark-text me-1"></i>Cotizaciones
+                </a>
+                <a th:href="@{/boletas}" class="btn btn-outline-secondary">
+                    <i class="bi bi-receipt me-1"></i>Boletas
+                </a>
+            </div>
         </div>
 
         <!-- Tarjetas resumen -->
@@ -38,7 +52,7 @@
                 <div class="card h-100 shadow-sm text-center border-0">
                     <div class="card-body">
                         <i class="bi bi-box-seam text-primary fs-2"></i>
-                        <h3 class="mt-2 mb-1" th:text="${productos.size()}">0</h3>
+                        <h3 class="mt-2 mb-1" th:text="${totalProductos}">0</h3>
                         <p class="text-muted mb-0 small">Productos</p>
                     </div>
                 </div>
@@ -87,6 +101,13 @@
                 <button class="nav-link active" id="inventario-tab" data-bs-toggle="tab" data-bs-target="#inventario"
                     type="button">
                     <i class="bi bi-box-seam me-1"></i>Inventario
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="categorias-tab" data-bs-toggle="tab" data-bs-target="#categorias-panel"
+                    type="button">
+                    <i class="bi bi-tags me-1"></i>Categorías
+                    <span class="badge bg-primary ms-1" th:text="${totalCategorias}">0</span>
                 </button>
             </li>
             <li class="nav-item" role="presentation">
@@ -175,6 +196,60 @@
                                         <form th:action="@{/admin/producto/eliminar/{id}(id=${producto.id})}"
                                             method="post" class="d-inline"
                                             onsubmit="return confirm('¿Eliminar este producto?');">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                title="Eliminar">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: CATEGORÍAS -->
+            <div class="tab-pane fade" id="categorias-panel">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                        <h2 class="h5 mb-0">Categorías y productos asociados</h2>
+                        <a th:href="@{/admin/categoria/nuevo}" class="btn btn-sm btn-primary">
+                            <i class="bi bi-plus-lg me-1"></i>Nueva categoría
+                        </a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Código</th>
+                                    <th class="text-center">Productos</th>
+                                    <th class="text-center">Stock total</th>
+                                    <th class="text-center">Disponible</th>
+                                    <th class="text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="c : ${categorias}">
+                                    <td th:text="${c.id}">1</td>
+                                    <td><strong th:text="${c.nombre}">Nombre</strong></td>
+                                    <td><code th:text="${c.codigo}">codigo</code></td>
+                                    <td class="text-center" th:text="${c.totalProductos}">0</td>
+                                    <td class="text-center" th:text="${c.stockTotal}">0</td>
+                                    <td class="text-center">
+                                        <span class="badge bg-success"
+                                            th:text="${c.stockDisponibleTotal}">0</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <a th:href="@{/admin/categoria/editar/{id}(id=${c.id})}"
+                                            class="btn btn-sm btn-outline-primary" title="Editar">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <form th:action="@{/admin/categoria/eliminar/{id}(id=${c.id})}"
+                                            method="post" class="d-inline"
+                                            onsubmit="return confirm('¿Eliminar esta categoría? Solo se puede si no tiene productos.');">
                                             <button type="submit" class="btn btn-sm btn-outline-danger"
                                                 title="Eliminar">
                                                 <i class="bi bi-trash"></i>

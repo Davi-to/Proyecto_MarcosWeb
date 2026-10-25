@@ -1,20 +1,59 @@
 package pe.edu.utp.korvia.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "productos")
 public class Producto {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, length = 200)
     private String nombre;
+
+    @Column(nullable = false, length = 500)
     private String descripcion;
+
+    @Column(name = "descripcion_larga", columnDefinition = "TEXT")
     private String descripcionLarga;
+
+    @Column(nullable = false)
     private Double precio;
+
+    @Column(nullable = false)
     private Integer stock;
-    private Integer reservado; // unidades reservadas (24h)
+
+    @Column(nullable = false)
+    private Integer reservado = 0; // unidades reservadas (24h)
+
+    @Column(length = 255)
     private String imagen;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "categoria_id", nullable = false)
     private Categoria categoria;
 
     // Especificaciones
+    @Column(length = 100)
     private String cpu;
+
+    @Column(length = 100)
     private String ram;
+
+    @Column(length = 100)
     private String almacenamiento;
+
+    @Column(length = 100)
     private String gpu;
 
     public Producto() {

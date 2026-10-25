@@ -26,9 +26,9 @@ public class CotizacionService {
 
         for (ItemCarrito item : itemsCarrito) {
             cot.getItems().add(new ItemCotizacion(
-                    item.getProducto().getNombre(),
+                    item.getNombre(),
                     item.getCantidad(),
-                    item.getProducto().getPrecio()));
+                    item.getPrecio()));
         }
 
         cot.calcularTotales();

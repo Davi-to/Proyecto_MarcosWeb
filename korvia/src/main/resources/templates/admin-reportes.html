@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('Reportes')}"></head>
+
+<body class="bg-light">
+
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <div class="container py-4">
+        <a th:href="@{/administracion}" class="btn btn-outline-secondary mb-4">
+            <i class="bi bi-arrow-left me-1"></i>Volver al panel
+        </a>
+
+        <div class="mb-4">
+            <p class="text-primary fw-semibold mb-1">REPORTES</p>
+            <h1 class="h2 mb-0"><i class="bi bi-bar-chart me-2"></i>Reporte de inventario y reservas</h1>
+            <p class="text-muted mb-0">Consultas con JOIN y proyección a DTO.</p>
+        </div>
+
+        <!-- Resumen -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0 text-center">
+                    <div class="card-body">
+                        <i class="bi bi-tags text-primary fs-2"></i>
+                        <h3 class="mt-2 mb-1" th:text="${totalCategorias}">0</h3>
+                        <p class="text-muted mb-0 small">Categorías</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0 text-center">
+                    <div class="card-body">
+                        <i class="bi bi-box-seam text-success fs-2"></i>
+                        <h3 class="mt-2 mb-1" th:text="${totalProductos}">0</h3>
+                        <p class="text-muted mb-0 small">Productos</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0 text-center">
+                    <div class="card-body">
+                        <i class="bi bi-clock-history text-info fs-2"></i>
+                        <h3 class="mt-2 mb-1" th:text="${#lists.size(reservasDetalle)}">0</h3>
+                        <p class="text-muted mb-0 small">Reservas registradas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resumen por categoría (DTO con GROUP BY) -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-white">
+                <h2 class="h5 mb-0"><i class="bi bi-pie-chart me-2"></i>Resumen por categoría</h2>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Categoría</th>
+                            <th>Código</th>
+                            <th class="text-center">Productos</th>
+                            <th class="text-center">Stock total</th>
+                            <th class="text-center">Reservado</th>
+                            <th class="text-center">Disponible</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="c : ${categoriasConteo}">
+                            <td th:text="${c.id}">1</td>
+                            <td><strong th:text="${c.nombre}">Categoría</strong></td>
+                            <td><code th:text="${c.codigo}">codigo</code></td>
+                            <td class="text-center" th:text="${c.totalProductos}">0</td>
+                            <td class="text-center" th:text="${c.stockTotal}">0</td>
+                            <td class="text-center" th:text="${c.reservadoTotal}">0</td>
+                            <td class="text-center">
+                                <span class="badge bg-success"
+                                    th:text="${c.stockDisponibleTotal}">0</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Productos (DTO con JOIN Producto-Categoría) -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-white">
+                <h2 class="h5 mb-0"><i class="bi bi-list-check me-2"></i>Inventario detallado</h2>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Producto</th>
+                            <th>Categoría</th>
+                            <th class="text-end">Precio</th>
+                            <th class="text-center">Stock</th>
+                            <th class="text-center">Reservado</th>
+                            <th class="text-center">Disponible</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="p : ${productosReporte}">
+                            <td th:text="${p.id}">1</td>
+                            <td><strong th:text="${p.nombre}">Producto</strong></td>
+                            <td th:text="${p.categoria}">Categoría</td>
+                            <td class="text-end" th:text="'S/ ' + ${p.precio}">S/ 0.00</td>
+                            <td class="text-center" th:text="${p.stock}">0</td>
+                            <td class="text-center" th:text="${p.reservado}">0</td>
+                            <td class="text-center">
+                                <span class="badge bg-success"
+                                    th:text="${p.stockDisponible}">0</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Reservas (DTO con JOIN Reserva-Producto-Categoría-Usuario) -->
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white">
+                <h2 class="h5 mb-0"><i class="bi bi-funnel me-2"></i>Reservas por categoría y producto</h2>
+            </div>
+            <div class="card-body">
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Categoría</label>
+                        <select class="form-select" id="reporteCategoria"
+                            th:attr="data-productos-url=@{/api/productos},data-reservas-url=@{/api/reportes/reservas}">
+                            <option value="">Todas las categorías</option>
+                            <option th:each="cat : ${categorias}" th:value="${cat.id}"
+                                th:text="${cat.nombre}">Categoría</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Producto</label>
+                        <select class="form-select" id="reporteProducto">
+                            <option value="">Todos los productos</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Producto</th>
+                                <th>Categoría</th>
+                                <th>Cliente</th>
+                                <th>Email</th>
+                                <th class="text-center">Cantidad</th>
+                                <th>Reservado</th>
+                                <th>Expira</th>
+                                <th class="text-center">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaReservas">
+                            <tr th:each="r : ${reservasDetalle}">
+                                <td th:text="${r.id}">1</td>
+                                <td th:text="${r.producto}">Producto</td>
+                                <td th:text="${r.categoria}">Categoría</td>
+                                <td th:text="${r.cliente}">Cliente</td>
+                                <td th:text="${r.email}">Email</td>
+                                <td class="text-center" th:text="${r.cantidad}">1</td>
+                                <td th:text="${r.fechaReservaFormateada}">Fecha</td>
+                                <td th:text="${r.fechaExpiracionFormateada}">Fecha</td>
+                                <td class="text-center">
+                                    <span class="badge" th:classappend="${r.estado == 'ACTIVA'
+                                            ? 'bg-success'
+                                            : (r.estado == 'EXPIRADA' ? 'bg-secondary' : 'bg-danger')}"
+                                        th:text="${r.estado}">ACTIVA</span>
+                                </td>
+                            </tr>
+                            <tr th:if="${reservasDetalle.isEmpty()}">
+                                <td colspan="9" class="text-center text-muted py-4">
+                                    No hay reservas registradas.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/modal-cuenta :: modalCuenta}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const reporteCategoria = document.getElementById('reporteCategoria');
+        const reporteProducto = document.getElementById('reporteProducto');
+        const tablaReservas = document.getElementById('tablaReservas');
+        const productosUrl = reporteCategoria.dataset.productosUrl;
+        const reservasUrl = reporteCategoria.dataset.reservasUrl;
+
+        function escaparHtml(valor) {
+            return String(valor == null ? '' : valor)
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#39;');
+        }
+
+        function claseEstado(estado) {
+            if (estado === 'ACTIVA') return 'bg-success';
+            if (estado === 'EXPIRADA') return 'bg-secondary';
+            return 'bg-danger';
+        }
+
+        function pintarReservas(reservas) {
+            if (reservas.length === 0) {
+                tablaReservas.innerHTML = '<tr><td colspan="9" class="text-center text-muted py-4">'
+                    + 'No hay reservas para el filtro seleccionado.</td></tr>';
+                return;
+            }
+
+            tablaReservas.innerHTML = reservas.map(function (r) {
+                return '<tr>'
+                    + '<td>' + escaparHtml(r.id) + '</td>'
+                    + '<td>' + escaparHtml(r.producto) + '</td>'
+                    + '<td>' + escaparHtml(r.categoria) + '</td>'
+                    + '<td>' + escaparHtml(r.cliente) + '</td>'
+                    + '<td>' + escaparHtml(r.email) + '</td>'
+                    + '<td class="text-center">' + escaparHtml(r.cantidad) + '</td>'
+                    + '<td>' + escaparHtml(r.fechaReservaFormateada) + '</td>'
+                    + '<td>' + escaparHtml(r.fechaExpiracionFormateada) + '</td>'
+                    + '<td class="text-center"><span class="badge ' + claseEstado(r.estado) + '">'
+                    + escaparHtml(r.estado) + '</span></td>'
+                    + '</tr>';
+            }).join('');
+        }
+
+        async function cargarReservas() {
+            const productoId = reporteProducto.value;
+            let url = reservasUrl;
+            if (productoId) {
+                url += '?productoId=' + encodeURIComponent(productoId);
+            }
+
+            try {
+                const respuesta = await fetch(url);
+                pintarReservas(await respuesta.json());
+            } catch (error) {
+                tablaReservas.innerHTML = '<tr><td colspan="9" class="text-center text-danger py-4">'
+                    + 'No se pudieron cargar las reservas.</td></tr>';
+            }
+        }
+
+        async function cargarProductosReporte() {
+            const categoriaId = reporteCategoria.value;
+            reporteProducto.innerHTML = '<option value="">Todos los productos</option>';
+
+            if (!categoriaId) {
+                await cargarReservas();
+                return;
+            }
+
+            try {
+                const respuesta = await fetch(productosUrl + '?categoriaId=' + encodeURIComponent(categoriaId));
+                const productos = await respuesta.json();
+
+                productos.forEach(function (p) {
+                    const opcion = document.createElement('option');
+                    opcion.value = p.id;
+                    opcion.textContent = p.nombre;
+                    reporteProducto.appendChild(opcion);
+                });
+            } catch (error) {
+                reporteProducto.innerHTML = '<option value="">No se pudieron cargar los productos</option>';
+            }
+            await cargarReservas();
+        }
+
+        reporteCategoria.addEventListener('change', cargarProductosReporte);
+        reporteProducto.addEventListener('change', cargarReservas);
+    </script>
+</body>
+
+</html>

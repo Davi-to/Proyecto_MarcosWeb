@@ -4,7 +4,6 @@ import pe.edu.utp.korvia.model.ItemCarrito;
 import pe.edu.utp.korvia.model.Producto;
 import pe.edu.utp.korvia.service.CarritoService;
 import pe.edu.utp.korvia.service.ProductoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +15,13 @@ import java.util.List;
 @RequestMapping("/carrito")
 public class CarritoController {
 
-    @Autowired
-    private CarritoService carritoService;
+    private final CarritoService carritoService;
+    private final ProductoService productoService;
 
-    @Autowired
-    private ProductoService productoService;
+    public CarritoController(CarritoService carritoService, ProductoService productoService) {
+        this.carritoService = carritoService;
+        this.productoService = productoService;
+    }
 
     @GetMapping
     public String verCarrito(Model model) {
@@ -35,13 +36,29 @@ public class CarritoController {
             @RequestParam(defaultValue = "1") Integer cantidad,
             RedirectAttributes redirect) {
         Producto producto = productoService.buscarPorId(productoId);
-        if (producto != null && producto.isDisponible()) {
-            carritoService.agregarProducto(producto, cantidad);
-            redirect.addFlashAttribute("mensaje",
-                    "Producto agregado: " + producto.getNombre());
-        } else {
-            redirect.addFlashAttribute("error", "Producto sin stock");
+
+        if (producto == null) {
+            redirect.addFlashAttribute("error", "El producto no existe");
+            return "redirect:/carrito";
         }
+        if (cantidad == null || cantidad < 1) {
+            redirect.addFlashAttribute("error", "La cantidad debe ser al menos 1");
+            return "redirect:/catalogo";
+        }
+
+        int yaEnCarrito = carritoService.listarItems().stream()
+                .filter(item -> item.getProductoId().equals(productoId))
+                .mapToInt(ItemCarrito::getCantidad)
+                .sum();
+
+        if (producto.getStockDisponible() < yaEnCarrito + cantidad) {
+            redirect.addFlashAttribute("error",
+                    "No hay stock suficiente. Disponible: " + producto.getStockDisponible());
+            return "redirect:/catalogo";
+        }
+
+        carritoService.agregarProducto(producto, cantidad);
+        redirect.addFlashAttribute("mensaje", "Producto agregado: " + producto.getNombre());
         return "redirect:/carrito";
     }
 

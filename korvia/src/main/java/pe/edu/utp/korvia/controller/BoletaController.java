@@ -4,6 +4,7 @@ import pe.edu.utp.korvia.model.Boleta;
 import pe.edu.utp.korvia.service.BoletaPdfService;
 import pe.edu.utp.korvia.service.BoletaService;
 import pe.edu.utp.korvia.service.CarritoService;
+import pe.edu.utp.korvia.service.CheckoutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -28,6 +29,9 @@ public class BoletaController {
     @Autowired
     private BoletaPdfService boletaPdfService;
 
+    @Autowired
+    private CheckoutService checkoutService;
+
     @GetMapping("/checkout")
     public String checkoutForm(Model model, RedirectAttributes redirect) {
         if (carritoService.listarItems().isEmpty()) {
@@ -45,19 +49,14 @@ public class BoletaController {
             @RequestParam String metodoPago,
             RedirectAttributes redirect) {
 
-        if (carritoService.listarItems().isEmpty()) {
-            redirect.addFlashAttribute("error", "Tu carrito está vacío");
-            return "redirect:/carrito";
+        try {
+            Boleta boleta = checkoutService.pagar(clienteNombre, clienteEmail, metodoPago);
+            redirect.addFlashAttribute("mensaje", "Compra registrada correctamente");
+            return "redirect:/boleta/" + boleta.getId();
+        } catch (IllegalArgumentException | IllegalStateException ex) {
+            redirect.addFlashAttribute("error", ex.getMessage());
+            return "redirect:/checkout";
         }
-
-        Boleta boleta = boletaService.generarBoleta(
-                clienteNombre, clienteEmail, metodoPago, carritoService.listarItems());
-
-        carritoService.listarItems()
-                .forEach(item -> item.getProducto().setStock(item.getProducto().getStock() - item.getCantidad()));
-
-        carritoService.vaciar();
-        return "redirect:/boleta/" + boleta.getId();
     }
 
     @GetMapping("/boleta/{id}")

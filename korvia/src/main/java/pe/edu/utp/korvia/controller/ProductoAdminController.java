@@ -1,62 +1,58 @@
 package pe.edu.utp.korvia.controller;
 
-import pe.edu.utp.korvia.model.Categoria;
-import pe.edu.utp.korvia.model.Producto;
-import pe.edu.utp.korvia.service.ProductoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pe.edu.utp.korvia.dto.ProductoForm;
+import pe.edu.utp.korvia.model.Producto;
+import pe.edu.utp.korvia.service.CategoriaService;
+import pe.edu.utp.korvia.service.ProductoService;
 
 @Controller
 @RequestMapping("/admin/producto")
 public class ProductoAdminController {
 
-    @Autowired
-    private ProductoService productoService;
+    private final ProductoService productoService;
+    private final CategoriaService categoriaService;
+
+    public ProductoAdminController(ProductoService productoService,
+            CategoriaService categoriaService) {
+        this.productoService = productoService;
+        this.categoriaService = categoriaService;
+    }
 
     // ============ FORM NUEVO ============
     @GetMapping("/nuevo")
     public String nuevoForm(Model model) {
-        model.addAttribute("producto", new Producto());
-        model.addAttribute("categorias", productoService.listarCategorias());
-        model.addAttribute("modo", "nuevo");
+        ProductoForm form = new ProductoForm();
+        prepararFormulario(model, form, "nuevo", null);
         return "admin-producto-form";
     }
 
     // ============ CREAR ============
     @PostMapping("/guardar")
-    public String guardar(@RequestParam String nombre,
-            @RequestParam String descripcion,
-            @RequestParam(required = false) String descripcionLarga,
-            @RequestParam Double precio,
-            @RequestParam Integer stock,
-            @RequestParam String imagen,
-            @RequestParam String categoriaCodigo,
-            @RequestParam(required = false) String cpu,
-            @RequestParam(required = false) String ram,
-            @RequestParam(required = false) String almacenamiento,
-            @RequestParam(required = false) String gpu,
+    public String guardar(@Valid @ModelAttribute("productoForm") ProductoForm form,
+            BindingResult result,
+            Model model,
             RedirectAttributes redirect) {
 
-        Categoria categoria = productoService.listarCategorias().stream()
-                .filter(c -> c.getCodigo().equals(categoriaCodigo))
-                .findFirst()
-                .orElse(productoService.listarCategorias().get(0));
+        if (result.hasErrors()) {
+            prepararFormulario(model, form, "nuevo", null);
+            return "admin-producto-form";
+        }
 
-        Producto p = new Producto(null, nombre, descripcion, precio, stock, imagen, categoria);
-        p.setCpu(cpu);
-        p.setRam(ram);
-        p.setAlmacenamiento(almacenamiento);
-        p.setGpu(gpu);
-        p.setDescripcionLarga(descripcionLarga != null && !descripcionLarga.isEmpty()
-                ? descripcionLarga
-                : descripcion);
-
-        productoService.agregarProducto(p);
-        redirect.addFlashAttribute("mensaje", "Producto creado correctamente");
-        return "redirect:/administracion";
+        try {
+            productoService.crear(form);
+            redirect.addFlashAttribute("mensaje", "Producto creado correctamente");
+            return "redirect:/administracion";
+        } catch (RuntimeException ex) {
+            model.addAttribute("error", ex.getMessage());
+            prepararFormulario(model, form, "nuevo", null);
+            return "admin-producto-form";
+        }
     }
 
     // ============ FORM EDITAR ============
@@ -67,60 +63,54 @@ public class ProductoAdminController {
             redirect.addFlashAttribute("error", "Producto no encontrado");
             return "redirect:/administracion";
         }
-        model.addAttribute("producto", producto);
-        model.addAttribute("categorias", productoService.listarCategorias());
-        model.addAttribute("modo", "editar");
+        ProductoForm form = ProductoForm.desdeProducto(producto);
+        prepararFormulario(model, form, "editar", id);
         return "admin-producto-form";
     }
 
     // ============ ACTUALIZAR ============
     @PostMapping("/actualizar/{id}")
     public String actualizar(@PathVariable Long id,
-            @RequestParam String nombre,
-            @RequestParam String descripcion,
-            @RequestParam(required = false) String descripcionLarga,
-            @RequestParam Double precio,
-            @RequestParam Integer stock,
-            @RequestParam String imagen,
-            @RequestParam String categoriaCodigo,
-            @RequestParam(required = false) String cpu,
-            @RequestParam(required = false) String ram,
-            @RequestParam(required = false) String almacenamiento,
-            @RequestParam(required = false) String gpu,
+            @Valid @ModelAttribute("productoForm") ProductoForm form,
+            BindingResult result,
+            Model model,
             RedirectAttributes redirect) {
 
-        Categoria categoria = productoService.listarCategorias().stream()
-                .filter(c -> c.getCodigo().equals(categoriaCodigo))
-                .findFirst()
-                .orElse(productoService.listarCategorias().get(0));
+        if (result.hasErrors()) {
+            prepararFormulario(model, form, "editar", id);
+            return "admin-producto-form";
+        }
 
-        Producto datos = new Producto();
-        datos.setNombre(nombre);
-        datos.setDescripcion(descripcion);
-        datos.setDescripcionLarga(descripcionLarga);
-        datos.setPrecio(precio);
-        datos.setStock(stock);
-        datos.setImagen(imagen);
-        datos.setCategoria(categoria);
-        datos.setCpu(cpu);
-        datos.setRam(ram);
-        datos.setAlmacenamiento(almacenamiento);
-        datos.setGpu(gpu);
-
-        productoService.actualizarProducto(id, datos);
-        redirect.addFlashAttribute("mensaje", "Producto actualizado");
-        return "redirect:/administracion";
+        try {
+            productoService.actualizar(id, form);
+            redirect.addFlashAttribute("mensaje", "Producto actualizado");
+            return "redirect:/administracion";
+        } catch (RuntimeException ex) {
+            model.addAttribute("error", ex.getMessage());
+            prepararFormulario(model, form, "editar", id);
+            return "admin-producto-form";
+        }
     }
 
     // ============ ELIMINAR ============
     @PostMapping("/eliminar/{id}")
     public String eliminar(@PathVariable Long id, RedirectAttributes redirect) {
-        boolean eliminado = productoService.eliminarProducto(id);
-        if (eliminado) {
+        try {
+            productoService.eliminar(id);
             redirect.addFlashAttribute("mensaje", "Producto eliminado");
-        } else {
-            redirect.addFlashAttribute("error", "No se pudo eliminar el producto");
+        } catch (RuntimeException ex) {
+            redirect.addFlashAttribute("error", ex.getMessage());
         }
         return "redirect:/administracion";
+    }
+
+    private void prepararFormulario(Model model, ProductoForm form, String modo, Long productoId) {
+        model.addAttribute("productoForm", form);
+        model.addAttribute("categorias", categoriaService.listarTodas());
+        model.addAttribute("modo", modo);
+        model.addAttribute("productoId", productoId);
+        model.addAttribute("formAction", "nuevo".equals(modo)
+                ? "/admin/producto/guardar"
+                : "/admin/producto/actualizar/" + productoId);
     }
 }

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('Boletas')}"></head>
+
+<body class="bg-light">
+
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <div class="container py-4">
+        <a th:href="@{/administracion}" class="btn btn-outline-secondary mb-4">
+            <i class="bi bi-arrow-left me-1"></i>Volver al panel
+        </a>
+
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+            <div>
+                <p class="text-primary fw-semibold mb-1">ADMINISTRACIÓN</p>
+                <h1 class="h2 mb-0"><i class="bi bi-receipt me-2"></i>Boletas</h1>
+                <p class="text-muted mb-0 small">
+                    <span th:text="${boletas.size()}">0</span> boletas registradas en esta sesión del servidor.
+                </p>
+            </div>
+        </div>
+
+        <div th:if="${mensaje}" class="alert alert-success alert-dismissible fade show">
+            <i class="bi bi-check-circle me-2"></i>
+            <span th:text="${mensaje}">Mensaje</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            <span th:text="${error}">Error</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle me-2"></i>
+            Las boletas se guardan en memoria en este avance. Se conservan mientras la aplicación esté en ejecución.
+        </div>
+
+        <div th:if="${boletas.isEmpty()}" class="alert alert-info text-center py-5">
+            <i class="bi bi-receipt fs-1 d-block mb-3"></i>
+            <h5>No hay boletas registradas</h5>
+            <p class="text-muted mb-0">Cuando un cliente complete un checkout, la boleta aparecerá aquí.</p>
+        </div>
+
+        <div th:unless="${boletas.isEmpty()}" class="card shadow-sm border-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>N°</th>
+                            <th>Cliente</th>
+                            <th>Email</th>
+                            <th>Fecha</th>
+                            <th>Método de pago</th>
+                            <th class="text-end">Total</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="b : ${boletas}">
+                            <td><strong th:text="${b.numero}">B001-00000001</strong></td>
+                            <td th:text="${b.clienteNombre}">Cliente</td>
+                            <td th:text="${b.clienteEmail}">Email</td>
+                            <td th:text="${b.fechaFormateada}">Fecha</td>
+                            <td>
+                                <span class="badge bg-secondary" th:text="${b.metodoPago}">Tarjeta</span>
+                            </td>
+                            <td class="text-end fw-bold" th:text="'S/ ' + ${b.total}">S/ 0.00</td>
+                            <td class="text-center">
+                                <a th:href="@{/boleta/{id}(id=${b.id})}" class="btn btn-sm btn-outline-primary"
+                                    title="Ver boleta">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a th:href="@{/boleta/{id}/pdf(id=${b.id})}" class="btn btn-sm btn-outline-danger"
+                                    title="PDF" target="_blank">
+                                    <i class="bi bi-file-earmark-pdf"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/modal-cuenta :: modalCuenta}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

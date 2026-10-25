@@ -50,7 +50,7 @@
                         <ul class="list-group list-group-flush mb-3">
                             <li class="list-group-item d-flex justify-content-between px-0" th:each="item : ${items}">
                                 <span>
-                                    <span th:text="${item.producto.nombre}">Producto</span>
+                                    <span th:text="${item.nombre}">Producto</span>
                                     <small class="text-muted" th:text="' x' + ${item.cantidad}">x1</small>
                                 </span>
                                 <strong th:text="'S/ ' + ${item.subtotal}">S/ 0.00</strong>

@@ -119,6 +119,7 @@
                     </div>
                     <div class="modal-body">
                         <input type="hidden" name="productoId" th:value="${producto.id}">
+                        <input type="hidden" name="categoriaId" th:value="${producto.categoria.id}">
 
                         <p class="text-muted small">
                             Reserva este producto y tendrás <strong>24 horas</strong> para concretar la compra.
@@ -126,11 +127,13 @@
 
                         <div class="mb-3">
                             <label class="form-label">Tu nombre *</label>
-                            <input type="text" name="nombre" class="form-control" required minlength="2">
+                            <input type="text" name="nombre" class="form-control" required minlength="2"
+                                th:value="${usuarioActual != null ? usuarioActual.nombreCompleto : ''}">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Tu correo *</label>
-                            <input type="email" name="email" class="form-control" required>
+                            <input type="email" name="email" class="form-control" required
+                                th:value="${usuarioActual != null ? usuarioActual.email : ''}">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Cantidad *</label>

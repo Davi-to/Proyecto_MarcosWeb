@@ -49,23 +49,23 @@
                         <tr th:each="item : ${items}">
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <img th:src="@{/img/productos/{img}(img=${item.producto.imagen})}"
-                                        th:alt="${item.producto.nombre}"
+                                    <img th:src="@{/img/productos/{img}(img=${item.imagen})}"
+                                        th:alt="${item.nombre}"
                                         style="width: 60px; height: 60px; object-fit: cover;" class="rounded me-3">
                                     <div>
-                                        <strong th:text="${item.producto.nombre}">Nombre</strong>
+                                        <strong th:text="${item.nombre}">Nombre</strong>
                                         <br>
                                         <small class="text-muted"
-                                            th:text="${item.producto.categoria.nombre}">Categoría</small>
+                                            th:text="${item.categoriaNombre}">Categoría</small>
                                     </div>
                                 </div>
                             </td>
-                            <td class="text-end" th:text="'S/ ' + ${item.producto.precio}">S/ 0.00</td>
+                            <td class="text-end" th:text="'S/ ' + ${item.precio}">S/ 0.00</td>
                             <td class="text-center" th:text="${item.cantidad}">1</td>
                             <td class="text-end fw-bold" th:text="'S/ ' + ${item.subtotal}">S/ 0.00</td>
                             <td class="text-center">
                                 <form th:action="@{/carrito/quitar}" method="post" class="d-inline">
-                                    <input type="hidden" name="productoId" th:value="${item.producto.id}">
+                                    <input type="hidden" name="productoId" th:value="${item.productoId}">
                                     <button type="submit" class="btn btn-sm btn-outline-danger"
                                         title="Quitar del carrito">
                                         <i class="bi bi-trash"></i>

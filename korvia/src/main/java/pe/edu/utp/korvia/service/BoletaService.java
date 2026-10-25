@@ -29,9 +29,9 @@ public class BoletaService {
         // Convertir items del carrito a items de boleta (snapshot)
         for (ItemCarrito item : itemsCarrito) {
             boleta.getItems().add(new ItemBoleta(
-                    item.getProducto().getNombre(),
+                    item.getNombre(),
                     item.getCantidad(),
-                    item.getProducto().getPrecio()));
+                    item.getPrecio()));
         }
 
         boleta.calcularTotales();
